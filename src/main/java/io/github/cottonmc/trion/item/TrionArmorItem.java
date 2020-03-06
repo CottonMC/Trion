@@ -48,4 +48,9 @@ public class TrionArmorItem extends DyeableArmorItem {
 		}
 		return stack;
 	}
+
+	@Override
+	public boolean hasEnchantmentGlint(ItemStack stack) {
+		return false;
+	}
 }
