@@ -1,28 +1,25 @@
 {
   "schemaVersion": 1,
-  "id": "starter",
+  "id": "trion",
   "version": "${version}",
 
-  "name": "Fabric Starter",
-  "icon": "assets/starter/icon.png",
-  "description": "Template for starting out Fabric mods",
+  "name": "Trion",
+  "icon": "assets/trion/icon.png",
+  "description": "Technological combat",
   "license": "MIT",
   "contact": {
-    "sources": "https://github.com/CottonMC/FabricStarter"
+    "sources": "https://github.com/CottonMC/Trion"
   },
   "environment": "*",
   "entrypoints": {
     "main": [
-      "io.github.cottonmc.starter.FabricStarter"
+      "io.github.cottonmc.trion.Trion"
     ]
   },
   "mixins": [
-    "mixins.starter.json"
+    "mixins.trion.json"
   ],
   "depends": {
     "fabricloader": ">=0.4.0"
-  },
-  "custom": {
-    "modmenu:api": true
   }
 }
