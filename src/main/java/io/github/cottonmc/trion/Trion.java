@@ -1,6 +1,7 @@
 package io.github.cottonmc.trion;
 
 import io.github.cottonmc.trion.registry.TrionItems;
+import io.github.cottonmc.trion.registry.TrionParticles;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
 import net.minecraft.item.ItemGroup;
@@ -20,5 +21,6 @@ public class Trion implements ModInitializer {
 	@Override
 	public void onInitialize() {
 		TrionItems.init();
+		TrionParticles.init();
 	}
 }
