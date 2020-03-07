@@ -8,12 +8,13 @@ import net.minecraft.world.World;
 
 public class TransformationParticle extends AnimatedParticle {
 	public TransformationParticle(World world, double x, double y, double z, double velocityX, double velocityY, double velocityZ, SpriteProvider spriteProvider) {
-		super(world, x, y, z, spriteProvider, 0.05F);
-		this.velocityX = velocityX;
-		this.velocityY = velocityY;
-		this.velocityZ = velocityZ;
+		super(world, x, y, z, spriteProvider, 0.02F);
+		this.velocityX = velocityX / 2;
+		this.velocityY = velocityY / 2;
+		this.velocityZ = velocityZ / 2;
 		this.scale *= 0.75F;
-		this.maxAge = 60 + this.random.nextInt(12);
+		this.maxAge = 30 + this.random.nextInt(12);
+		this.collidesWithWorld = false;
 		this.setSpriteForAge(spriteProvider);
 		if (this.random.nextInt(4) == 0) {
 			this.setColor(0.37F + this.random.nextFloat() * 0.2F, 0.93F + this.random.nextFloat() * 0.3F, 0.58F + this.random.nextFloat() * 0.2F);
