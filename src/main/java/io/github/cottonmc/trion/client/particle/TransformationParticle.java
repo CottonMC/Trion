@@ -17,9 +17,9 @@ public class TransformationParticle extends AnimatedParticle {
 		this.collidesWithWorld = false;
 		this.setSpriteForAge(spriteProvider);
 		if (this.random.nextInt(4) == 0) {
-			this.setColor(0.37F + this.random.nextFloat() * 0.2F, 0.93F + this.random.nextFloat() * 0.3F, 0.58F + this.random.nextFloat() * 0.2F);
+			this.setColor(0.37F + this.random.nextFloat() * 0.2F, Math.min(1F, 0.93F + this.random.nextFloat() * 0.3F), 0.58F + this.random.nextFloat() * 0.2F);
 		} else {
-			this.setColor(0.33F + this.random.nextFloat() * 0.2F, 0.87F + this.random.nextFloat() * 0.3F, 0.6F + this.random.nextFloat() * 0.2F);
+			this.setColor(0.33F + this.random.nextFloat() * 0.2F, Math.min(1F, 0.87F + this.random.nextFloat() * 0.3F), 0.6F + this.random.nextFloat() * 0.2F);
 		}
 
 		this.setResistance(0.6F);

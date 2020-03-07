@@ -27,13 +27,13 @@ public class TriggerItem extends Item {
 				user.equipStack(slot, TrionArmorItem.getOriginalStack(user.getEquippedStack(slot)));
 			}
 			tag.remove("Active");
-			user.getItemCooldownManager().set(this, 100);
+			user.getItemCooldownManager().set(this, 60);
 		} else {
 			for (EquipmentSlot slot : EquipmentSlot.values()) {
 				user.equipStack(slot, TrionArmorItem.getTrionStack(slot, user.getEquippedStack(slot), 0x5FEC94));
 			}
 			tag.putBoolean("Active", true);
-			user.getItemCooldownManager().set(this, 20);
+			user.getItemCooldownManager().set(this, 30);
 			((ServerWorld)world).spawnParticles(TrionParticles.TRANSFORMATION, user.getX(), user.getY(), user.getZ(), 100, 0.0F, 0.0F, 0.0F, 0.25F);
 		}
 		return TypedActionResult.success(stack);
