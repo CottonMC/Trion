@@ -1,0 +1,16 @@
+{
+  "transformation.on": {
+    "category": "players",
+    "sounds": [
+      "trion:transformation/on"
+    ],
+    "subtitle": "subtitle.trion.transformation.on"
+  },
+  "transformation.off": {
+    "category": "players",
+    "sounds": [
+      "trion:transformation/off"
+    ],
+    "subtitle": "subtitle.trion.transformation.of"
+  }
+}

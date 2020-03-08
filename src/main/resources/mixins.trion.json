@@ -3,6 +3,7 @@
   "package": "io.github.cottonmc.trion.mixin",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
+    "MixinPlayerEntity"
   ],
   "client": [
     "MixinArmorFeatureRenderer"

@@ -4,6 +4,7 @@ import io.github.cottonmc.trion.api.TrionComponent;
 import io.github.cottonmc.trion.impl.TrionComponentImpl;
 import io.github.cottonmc.trion.registry.TrionItems;
 import io.github.cottonmc.trion.registry.TrionParticles;
+import io.github.cottonmc.trion.registry.TrionSounds;
 import nerdhub.cardinal.components.api.ComponentRegistry;
 import nerdhub.cardinal.components.api.ComponentType;
 import nerdhub.cardinal.components.api.event.EntityComponentCallback;
@@ -30,6 +31,7 @@ public class Trion implements ModInitializer {
 	public void onInitialize() {
 		TrionItems.init();
 		TrionParticles.init();
-		EntityComponentCallback.event(PlayerEntity.class).register((player, container) -> new TrionComponentImpl(player));
+		TrionSounds.init();
+		EntityComponentCallback.event(PlayerEntity.class).register((player, container) -> container.put(TRION_COMPONENT, new TrionComponentImpl(player)));
 	}
 }
