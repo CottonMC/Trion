@@ -12,5 +12,12 @@
       "trion:transformation/off"
     ],
     "subtitle": "subtitle.trion.transformation.of"
+  },
+  "transformation.charge": {
+    "category": "players",
+    "sounds": [
+      "trion:transformation/charge"
+    ],
+    "subtitle": "subtitle.trion.transformation.charge"
   }
 }

@@ -7,8 +7,9 @@ import net.minecraft.util.registry.Registry;
 
 public class TrionSounds {
 
-	public static final SoundEvent TRANSFORM_ON = register("transformation.on");
-	public static final SoundEvent TRANSFORM_OFF = register("transformation.off");
+	public static final SoundEvent TRANSFORMATION_ON = register("transformation.on");
+	public static final SoundEvent TRANSFORMATION_OFF = register("transformation.off");
+	public static final SoundEvent TRANSFORMATION_CHARGE = register("transformation.charge");
 
 	public static void init() { }
 

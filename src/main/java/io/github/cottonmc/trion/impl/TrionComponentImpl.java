@@ -44,7 +44,7 @@ public class TrionComponentImpl implements TrionComponent {
 				for (EquipmentSlot slot : EquipmentSlot.values()) {
 					player.equipStack(slot, TrionArmorItem.getTrionStack(slot, player.getEquippedStack(slot), 0x5FEC94));
 				}
-				player.world.playSound(null, player.getBlockPos(), TrionSounds.TRANSFORM_ON, SoundCategory.PLAYERS, 1f, 1f);
+				player.world.playSound(null, player.getBlockPos(), TrionSounds.TRANSFORMATION_ON, SoundCategory.PLAYERS, .8f, 1f);
 				activating = false;
 				triggerActive = true;
 				activationTime = 0;
@@ -70,6 +70,7 @@ public class TrionComponentImpl implements TrionComponent {
 		activating = true;
 		if (!player.world.isClient) {
 			((ServerWorld)player.world).spawnParticles(TrionParticles.TRANSFORMATION, player.getX(), player.getY(), player.getZ(), 100, 0.0F, 0.0F, 0.0F, 0.25F);
+			player.world.playSound(null, player.getBlockPos(), TrionSounds.TRANSFORMATION_CHARGE, SoundCategory.PLAYERS, 1f, 1f);
 		}
 		sync();
 	}
@@ -80,7 +81,7 @@ public class TrionComponentImpl implements TrionComponent {
 		for (EquipmentSlot slot : EquipmentSlot.values()) {
 			player.equipStack(slot, TrionArmorItem.getOriginalStack(player.getEquippedStack(slot)));
 		}
-		player.world.playSound(null, player.getBlockPos(), TrionSounds.TRANSFORM_OFF, SoundCategory.PLAYERS, 1f, 1f);
+		player.world.playSound(null, player.getBlockPos(), TrionSounds.TRANSFORMATION_OFF, SoundCategory.PLAYERS, .8f, 1f);
 		sync();
 	}
 

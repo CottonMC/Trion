@@ -12,4 +12,5 @@
 Trion is a sci-fi technological combat mod inspired by World Trigger.
 
 ### Sound Credits
-- `shields1.ogg`, `shields3.ogg` by [PhreaKsAccount](https://freesound.org/people/PhreaKsAccount/), licensed under CC:A
+- [`shields1.ogg`](https://freesound.org/people/PhreaKsAccount/sounds/46492/), [`shields3.ogg`](https://freesound.org/people/PhreaKsAccount/sounds/46494/) by [PhreaKsAccount](https://freesound.org/people/PhreaKsAccount/), licensed under CC:A
+- [`Charge Laser (lower)`](https://freesound.org/people/LiamG_SFX/sounds/323072/) by [LiamG_SFX](https://freesound.org/people/LiamG_SFX/), licensed under CC:A-NC
