@@ -19,10 +19,15 @@ public class TrionComponentImpl implements TrionComponent {
 	private boolean triggerActive = false;
 	private int trion = 200;
 	private int maxTrion = 200;
+	private int virtualTrion = 200;
+	private int lastVirtualTrion = 200;
 
 	private boolean activating = false;
 	private int activationTime = 0;
 	private final int maxActivationTime = 30;
+
+	private int virtualTrionCooldown = 0;
+	private final int maxVirtualTrionCooldown = 400;
 
 	public TrionComponentImpl(PlayerEntity player) {
 		this.player = player;
@@ -52,25 +57,31 @@ public class TrionComponentImpl implements TrionComponent {
 			}
 			sync();
 		} else {
-			if (!isTriggerActive() && getTrion() < getMaxTrion() && getEntity().world.getTime() % 2 == 0) {
-				setTrion(getTrion() + 1);
+			if (!player.hasStatusEffect(TrionStatusEffects.VIRTUAL_COMBAT)) {
+				//TODO: more punishing cooldown if trion was totally depleted?
+				if (!isTriggerActive() && getTrion() < getMaxTrion() && getEntity().world.getTime() % 2 == 0) {
+					setTrion(getTrion() + 1);
+				}
+				if (isTriggerActive()) {
+					if (getEntity().world.getTime() % 50 == 0) {
+						setTrion(getTrion() - 1);
+					}
+					if (player.hasStatusEffect(TrionStatusEffects.CHAMELEON) && getEntity().world.getTime() % 5 == 0) {
+						setTrion(getTrion() - 1);
+					}
+				}
+			} else {
+				if (virtualTrion != lastVirtualTrion) {
+					virtualTrionCooldown = 0;
+					lastVirtualTrion = virtualTrion;
+				} else {
+					virtualTrionCooldown++;
+					if (virtualTrionCooldown >= maxVirtualTrionCooldown) {
+						virtualTrion = maxTrion;
+						virtualTrionCooldown = 0;
+					}
+				}
 				sync();
-			}
-			if (isTriggerActive()) {
-				if (getEntity().world.getTime() % 50 == 0) {
-					setTrion(getTrion() - 1);
-					if (getTrion() == 0) {
-						deactivateTrigger();
-					}
-					sync();
-				}
-				if (player.hasStatusEffect(TrionStatusEffects.CHAMELEON) && getEntity().world.getTime() % 5 == 0) {
-					setTrion(getTrion() - 1);
-					if (getTrion() == 0) {
-						deactivateTrigger();
-					}
-					sync();
-				}
 			}
 		}
 	}
@@ -97,12 +108,25 @@ public class TrionComponentImpl implements TrionComponent {
 
 	@Override
 	public int getTrion() {
-		return trion;
+		if (!player.hasStatusEffect(TrionStatusEffects.VIRTUAL_COMBAT)) {
+			return trion;
+		} else {
+			return virtualTrion;
+		}
 	}
 
 	@Override
-	public void setTrion(int trion) {
-		this.trion = trion;
+	public void setTrion(int trion, boolean realOnly) {
+		if (!player.hasStatusEffect(TrionStatusEffects.VIRTUAL_COMBAT)) {
+			this.trion = Math.max(0, trion);
+			if (this.trion == 0) deactivateTrigger();
+		} else if (!realOnly) {
+			this.virtualTrion = Math.max(0, virtualTrion);
+			if (this.virtualTrion == 0) {
+
+			}
+			//TODO: effect for defeat in virtual combat
+		}
 		sync();
 	}
 
@@ -135,6 +159,8 @@ public class TrionComponentImpl implements TrionComponent {
 		maxTrion = tag.getInt("MaxTrion");
 		activating = tag.getBoolean("Activating");
 		activationTime = tag.getInt("ActivationTime");
+		virtualTrion = tag.getInt("VirtualTrion");
+		virtualTrionCooldown = tag.getInt("VirtualTrionCooldown");
 	}
 
 	@Override
@@ -144,6 +170,8 @@ public class TrionComponentImpl implements TrionComponent {
 		tag.putInt("MaxTrion", maxTrion);
 		tag.putBoolean("Activating", activating);
 		tag.putInt("ActivationTime", activationTime);
+		tag.putInt("VirtualTrion", virtualTrion);
+		tag.putInt("VirtualTrionCooldown", virtualTrionCooldown);
 		return tag;
 	}
 }

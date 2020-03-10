@@ -3,6 +3,7 @@ package io.github.cottonmc.trion.client.hud;
 import com.mojang.blaze3d.systems.RenderSystem;
 import io.github.cottonmc.trion.Trion;
 import io.github.cottonmc.trion.api.TrionComponent;
+import io.github.cottonmc.trion.registry.TrionStatusEffects;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.BufferBuilder;
 import net.minecraft.client.render.Tessellator;
@@ -25,15 +26,19 @@ public class TrionBarHud {
 	//TODO: config?
 	private static final int x = 4;
 	private static final int y = 16;
-	private static final int color = 0x5FEC94;
+	private static final int normalColor = 0x5FEC94;
+	private static final int virtualColor = 0x5FD3EC;
+	private static final int cooldownColor = 0xEC5F6B;
 	private static final boolean bigBars = false;
 	private static final int unitsPerBar = 50; //TODO: ever changes?
 
+	//TODO: any better way to do color and fadeout?
 	public static void render(float tickDelta) {
+		int color = client.player.hasStatusEffect(TrionStatusEffects.VIRTUAL_COMBAT)? virtualColor : normalColor;
 		long now = System.nanoTime() / 1_000_000L;
 		TrionComponent component = Trion.TRION_COMPONENT.get(client.player);
 		if (component.isTriggerActive()) {
-			drawBar(component, 1f);
+			drawBar(component, color, 1f);
 		} else {
 			if (component.getTrion() >= component.getMaxTrion()) {
 				if (needDraw) {
@@ -41,7 +46,7 @@ public class TrionBarHud {
 					currentFadeDelta += elapsed;
 					float progress = currentFadeDelta / MAX_FADE_TIME;
 					if (progress < 1f) {
-						drawBar(component, 1 - progress);
+						drawBar(component, color,1 - progress);
 					} else {
 						currentFadeDelta = 0;
 						needDraw = false;
@@ -49,13 +54,13 @@ public class TrionBarHud {
 				}
 			} else {
 				needDraw = true;
-				drawBar(component, 1f);
+				drawBar(component, color, 1f);
 			}
 		}
 		lastFadeTime = now;
 	}
 
-	private static void drawBar(TrionComponent component, float alpha) {
+	private static void drawBar(TrionComponent component, int color, float alpha) {
 		//draw icon
 		client.getTextureManager().bindTexture(ICON_TEX);
 		RenderSystem.enableBlend();
