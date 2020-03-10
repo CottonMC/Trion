@@ -5,6 +5,7 @@ import io.github.cottonmc.trion.api.TrionComponent;
 import io.github.cottonmc.trion.item.TrionArmorItem;
 import io.github.cottonmc.trion.registry.TrionParticles;
 import io.github.cottonmc.trion.registry.TrionSounds;
+import io.github.cottonmc.trion.registry.TrionStatusEffects;
 import nerdhub.cardinal.components.api.ComponentType;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EquipmentSlot;
@@ -51,16 +52,25 @@ public class TrionComponentImpl implements TrionComponent {
 			}
 			sync();
 		} else {
-			if (!isTriggerActive() && getTrion() < getMaxTrion() && getEntity().world.getTime() % 3 == 0) {
+			if (!isTriggerActive() && getTrion() < getMaxTrion() && getEntity().world.getTime() % 2 == 0) {
 				setTrion(getTrion() + 1);
 				sync();
 			}
-			if (isTriggerActive() && getEntity().world.getTime() % 10 == 0) {
-				setTrion(getTrion() - 1);
-				if (getTrion() == 0) {
-					deactivateTrigger();
+			if (isTriggerActive()) {
+				if (getEntity().world.getTime() % 50 == 0) {
+					setTrion(getTrion() - 1);
+					if (getTrion() == 0) {
+						deactivateTrigger();
+					}
+					sync();
 				}
-				sync();
+				if (player.hasStatusEffect(TrionStatusEffects.CHAMELEON) && getEntity().world.getTime() % 5 == 0) {
+					setTrion(getTrion() - 1);
+					if (getTrion() == 0) {
+						deactivateTrigger();
+					}
+					sync();
+				}
 			}
 		}
 	}

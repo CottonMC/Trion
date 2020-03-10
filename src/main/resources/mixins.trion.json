@@ -6,6 +6,7 @@
     "MixinPlayerEntity"
   ],
   "client": [
-    "MixinArmorFeatureRenderer"
+    "MixinArmorFeatureRenderer",
+    "MixinPlayerEntityRenderer"
   ]
 }

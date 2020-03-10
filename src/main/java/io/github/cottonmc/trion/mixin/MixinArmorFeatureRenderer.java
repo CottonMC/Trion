@@ -1,20 +1,31 @@
 package io.github.cottonmc.trion.mixin;
 
+import io.github.cottonmc.trion.Trion;
+import io.github.cottonmc.trion.api.TrionComponent;
 import io.github.cottonmc.trion.item.CustomArmorMaterial;
+import io.github.cottonmc.trion.registry.TrionStatusEffects;
+import net.minecraft.client.render.VertexConsumer;
+import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.feature.ArmorFeatureRenderer;
+import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.entity.EquipmentSlot;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ArmorItem;
+import net.minecraft.util.Hand;
 import net.minecraft.util.Identifier;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.Map;
 
 @Mixin(ArmorFeatureRenderer.class)
-public class MixinArmorFeatureRenderer {
+public class MixinArmorFeatureRenderer<T extends LivingEntity> {
 	@Shadow
 	@Final
 	private static Map<String, Identifier> ARMOR_TEXTURE_CACHE;

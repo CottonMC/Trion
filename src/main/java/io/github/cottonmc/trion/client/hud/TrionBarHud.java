@@ -58,6 +58,8 @@ public class TrionBarHud {
 	private static void drawBar(TrionComponent component, float alpha) {
 		//draw icon
 		client.getTextureManager().bindTexture(ICON_TEX);
+		RenderSystem.enableBlend();
+		RenderSystem.enableAlphaTest();
 		int left = x;
 		int top = y;
 		RenderSystem.color4f(1f, 1f, 1f, alpha);
@@ -171,6 +173,8 @@ public class TrionBarHud {
 		}
 
 		RenderSystem.color4f(1f, 1f, 1f, 1f);
+		RenderSystem.disableBlend();
+		RenderSystem.disableAlphaTest();
 	}
 
 	private static void blit(int x, int y, int width, int height) {
