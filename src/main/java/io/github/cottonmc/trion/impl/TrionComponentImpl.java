@@ -114,6 +114,7 @@ public class TrionComponentImpl implements TrionComponent {
 	@Override
 	public void setMaxTrion(int maxTrion) {
 		this.maxTrion = maxTrion;
+		this.trion = Math.min(trion, maxTrion);
 		sync();
 	}
 

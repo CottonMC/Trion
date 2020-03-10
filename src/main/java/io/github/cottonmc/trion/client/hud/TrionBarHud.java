@@ -139,6 +139,7 @@ public class TrionBarHud {
 						boxesLeft -= 12;
 					} else {
 						toDraw = boxesLeft;
+						boxesLeft = 0;
 					}
 					//first box
 					blit(left, newTop, 6, 5, texUV(0), texUV(15), texUV(6), texUV(20));
@@ -156,6 +157,7 @@ public class TrionBarHud {
 						}
 					}
 					newTop += 4;
+					if (boxesLeft == 0) break;
 				}
 			}
 		} else {
