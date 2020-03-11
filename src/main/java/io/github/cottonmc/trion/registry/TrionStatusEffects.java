@@ -1,7 +1,7 @@
 package io.github.cottonmc.trion.registry;
 
 import io.github.cottonmc.trion.Trion;
-import io.github.cottonmc.trion.status.CustomStatusEffect;
+import io.github.cottonmc.trion.hooks.CustomStatusEffect;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectType;
 import net.minecraft.util.Identifier;

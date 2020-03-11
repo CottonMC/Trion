@@ -42,9 +42,7 @@ public class TrionComponentImpl implements TrionComponent {
 	public void tick() {
 		if (activating) {
 			if (activationTime < maxActivationTime) {
-				if (!player.world.isClient) {
-					((ServerWorld) player.world).spawnParticles(TrionParticles.TRANSFORMATION, player.getX(), player.getY(), player.getZ(), 25, 0.0F, 0.0F, 0.0F, 0.25F);
-				}
+				((ServerWorld) player.world).spawnParticles(TrionParticles.TRANSFORMATION, player.getX(), player.getY(), player.getZ(), 25, 0.0F, 0.0F, 0.0F, 0.25F);
 				activationTime++;
 			} else {
 				for (EquipmentSlot slot : EquipmentSlot.values()) {
@@ -123,9 +121,11 @@ public class TrionComponentImpl implements TrionComponent {
 		} else if (!realOnly) {
 			this.virtualTrion = Math.max(0, virtualTrion);
 			if (this.virtualTrion == 0) {
-
+				//TODO: proper effect for defeat in virtual combat
+				if (!player.world.isClient) {
+					((ServerWorld) player.world).spawnParticles(TrionParticles.TRANSFORMATION, player.getX(), player.getY(), player.getZ(), 25, 0.0F, 0.0F, 0.0F, 0.25F);
+				}
 			}
-			//TODO: effect for defeat in virtual combat
 		}
 		sync();
 	}

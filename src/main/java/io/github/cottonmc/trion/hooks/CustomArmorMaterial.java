@@ -1,4 +1,4 @@
-package io.github.cottonmc.trion.item;
+package io.github.cottonmc.trion.hooks;
 
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.item.ArmorMaterial;

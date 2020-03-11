@@ -1,4 +1,4 @@
-package io.github.cottonmc.trion.status;
+package io.github.cottonmc.trion.hooks;
 
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectType;

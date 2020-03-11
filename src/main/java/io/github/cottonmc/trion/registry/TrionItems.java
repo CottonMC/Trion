@@ -1,7 +1,7 @@
 package io.github.cottonmc.trion.registry;
 
 import io.github.cottonmc.trion.Trion;
-import io.github.cottonmc.trion.item.CustomArmorMaterial;
+import io.github.cottonmc.trion.hooks.CustomArmorMaterial;
 import io.github.cottonmc.trion.item.TriggerItem;
 import io.github.cottonmc.trion.item.TrionArmorItem;
 import io.github.cottonmc.trion.item.TrionDebugItem;
