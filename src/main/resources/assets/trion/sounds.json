@@ -4,20 +4,20 @@
     "sounds": [
       "trion:transformation/on"
     ],
-    "subtitle": "subtitle.trion.transformation.on"
+    "subtitle": "subtitles.trion.transformation.on"
   },
   "transformation.off": {
     "category": "players",
     "sounds": [
       "trion:transformation/off"
     ],
-    "subtitle": "subtitle.trion.transformation.of"
+    "subtitle": "subtitles.trion.transformation.of"
   },
   "transformation.charge": {
     "category": "players",
     "sounds": [
       "trion:transformation/charge"
     ],
-    "subtitle": "subtitle.trion.transformation.charge"
+    "subtitle": "subtitles.trion.transformation.charge"
   }
 }

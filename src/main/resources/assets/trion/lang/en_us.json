@@ -4,6 +4,12 @@
   "item.trion.trion_chestplate": "Trion Chestplate",
   "item.trion.trion_leggings": "Trion Leggings",
   "item.trion.trion_boots": "Trion Boots",
-  "subtitle.trion.transformation.on": "%s transforms",
-  "subtitle.trion.transformation.off": "%s un-transforms"
+  "subtitles.trion.transformation.on": "Player transforms",
+  "subtitles.trion.transformation.off": "Player un-transforms",
+  "subtitles.trion.transformation.charge": "Player's transformation charges",
+  "death.attack.trion": "%1$s was slain by %2$s's trion",
+  "death.attack.trion.item": "%1$s was slain by %2$s's trion using %3$s",
+  "effect.trion.virtual_combat": "Virtual Combat",
+  "effect.trion.chameleon": "Chameleon",
+  "itemGroup.trion.trion_group": "Trion"
 }
