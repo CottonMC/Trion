@@ -10,8 +10,8 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.world.World;
 
-public class TriggerItem extends Item {
-	public TriggerItem(Settings settings) {
+public class TriggerHolderItem extends Item {
+	public TriggerHolderItem(Settings settings) {
 		super(settings);
 	}
 

@@ -2,7 +2,7 @@ package io.github.cottonmc.trion.registry;
 
 import io.github.cottonmc.trion.Trion;
 import io.github.cottonmc.trion.hooks.CustomArmorMaterial;
-import io.github.cottonmc.trion.item.TriggerItem;
+import io.github.cottonmc.trion.item.TriggerHolderItem;
 import io.github.cottonmc.trion.item.TrionArmorItem;
 import io.github.cottonmc.trion.item.TrionDebugItem;
 import net.minecraft.entity.EquipmentSlot;
@@ -16,7 +16,7 @@ import net.minecraft.util.registry.Registry;
 public class TrionItems {
 	public static final ArmorMaterial TRION_ARMOR = new CustomArmorMaterial(1, new int[]{0, 0, 0, 0}, 0, SoundEvents.ITEM_ARMOR_EQUIP_GENERIC, Ingredient.EMPTY, 0f, new Identifier(Trion.MODID, "trion"));
 
-	public static final Item TRIGGER = register(new TriggerItem(defaultSettings()), "trigger");
+	public static final Item TRIGGER = register(new TriggerHolderItem(defaultSettings()), "trigger_holder");
 	public static final Item TRION_HELMET = register(new TrionArmorItem(TRION_ARMOR, EquipmentSlot.HEAD, defaultSettings()), "trion_helmet");
 	public static final Item TRION_CHESTPLATE = register(new TrionArmorItem(TRION_ARMOR, EquipmentSlot.CHEST, defaultSettings()), "trion_chestplate");
 	public static final Item TRION_LEGGINGS = register(new TrionArmorItem(TRION_ARMOR, EquipmentSlot.LEGS, defaultSettings()), "trion_leggings");
