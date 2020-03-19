@@ -2,7 +2,7 @@ package io.github.cottonmc.trion.mixin;
 
 import io.github.cottonmc.trion.Trion;
 import io.github.cottonmc.trion.api.TrionComponent;
-import io.github.cottonmc.trion.registry.TrionStatusEffects;
+import io.github.cottonmc.trion.registry.TrionTriggers;
 import net.minecraft.client.network.AbstractClientPlayerEntity;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.PlayerEntityRenderer;
@@ -22,6 +22,6 @@ public class MixinPlayerEntityRenderer {
 		if (comp.isTriggerActive()
 				&& entity.getStackInHand(Hand.MAIN_HAND).isEmpty()
 				&& entity.getStackInHand(Hand.OFF_HAND).isEmpty()
-				&& entity.hasStatusEffect(TrionStatusEffects.CHAMELEON)) info.cancel();
+				&& comp.getEquippedTriggers().contains(TrionTriggers.CHAMELEON)) info.cancel();
 	}
 }

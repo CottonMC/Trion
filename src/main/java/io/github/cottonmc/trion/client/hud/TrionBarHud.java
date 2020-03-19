@@ -17,6 +17,7 @@ public class TrionBarHud {
 	private static final Identifier BAR_TEX = new Identifier(Trion.MODID, "textures/gui/bars.png");
 	private static final Identifier ICON_TEX = new Identifier(Trion.MODID, "textures/icons/trion.png");
 
+	private static final float MAX_FADE_WAIT = 1000f;
 	private static final float MAX_FADE_TIME = 1000F;
 	private static long currentFadeWait = 0; //TODO: implement?
 	private static long currentFadeDelta = 0;
@@ -28,7 +29,7 @@ public class TrionBarHud {
 	private static final int y = 16;
 	private static final int normalColor = 0x5FEC94;
 	private static final int virtualColor = 0x5FD3EC;
-	private static final int cooldownColor = 0xEC5F6B;
+	private static final int burstColor = 0xEC5F6B;
 	private static final boolean bigBars = false;
 	private static final int unitsPerBar = 50; //TODO: ever changes?
 
@@ -37,19 +38,26 @@ public class TrionBarHud {
 		int color = client.player.hasStatusEffect(TrionStatusEffects.VIRTUAL_COMBAT)? virtualColor : normalColor;
 		long now = System.nanoTime() / 1_000_000L;
 		TrionComponent component = Trion.TRION_COMPONENT.get(client.player);
+		if (component.isBurst()) color = burstColor;
 		if (component.isTriggerActive()) {
 			drawBar(component, color, 1f);
 		} else {
 			if (component.getTrion() >= component.getMaxTrion()) {
 				if (needDraw) {
 					long elapsed = now - lastFadeTime;
-					currentFadeDelta += elapsed;
-					float progress = currentFadeDelta / MAX_FADE_TIME;
-					if (progress < 1f) {
-						drawBar(component, color,1 - progress);
+					if (currentFadeWait < MAX_FADE_WAIT) {
+						currentFadeWait += elapsed;
+						drawBar(component, color, 1);
 					} else {
-						currentFadeDelta = 0;
-						needDraw = false;
+						currentFadeDelta += elapsed;
+						float progress = currentFadeDelta / MAX_FADE_TIME;
+						if (progress < 1f) {
+							drawBar(component, color, 1 - progress);
+						} else {
+							currentFadeDelta = 0;
+							currentFadeWait = 0;
+							needDraw = false;
+						}
 					}
 				}
 			} else {
