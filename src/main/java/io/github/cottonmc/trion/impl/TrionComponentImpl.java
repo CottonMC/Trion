@@ -1,28 +1,20 @@
 package io.github.cottonmc.trion.impl;
 
-import com.google.common.collect.ImmutableList;
 import io.github.cottonmc.trion.Trion;
 import io.github.cottonmc.trion.api.Trigger;
+import io.github.cottonmc.trion.api.TriggerConfig;
 import io.github.cottonmc.trion.api.TrionComponent;
 import io.github.cottonmc.trion.item.TrionArmorItem;
 import io.github.cottonmc.trion.registry.TrionParticles;
 import io.github.cottonmc.trion.registry.TrionSounds;
 import io.github.cottonmc.trion.registry.TrionStatusEffects;
 import nerdhub.cardinal.components.api.ComponentType;
-import net.fabricmc.fabric.api.util.NbtType;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
-import net.minecraft.nbt.StringTag;
-import net.minecraft.nbt.Tag;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
-import net.minecraft.util.Identifier;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class TrionComponentImpl implements TrionComponent {
 	//core information
@@ -32,7 +24,7 @@ public class TrionComponentImpl implements TrionComponent {
 	private int maxTrion = 200;
 	private int virtualTrion = 200;
 	private int lastVirtualTrion = 200;
-	private List<Trigger> equippedTriggers = new ArrayList<>();
+	private TriggerConfig config;
 
 	//set-up
 	private boolean activating = false;
@@ -63,7 +55,7 @@ public class TrionComponentImpl implements TrionComponent {
 				activationTime++;
 			} else {
 				for (EquipmentSlot slot : EquipmentSlot.values()) {
-					player.equipStack(slot, TrionArmorItem.getTrionStack(slot, player.getEquippedStack(slot), 0x5FEC94));
+					player.equipStack(slot, TrionArmorItem.getTrionStack(slot, player.getEquippedStack(slot), config));
 				}
 				player.world.playSound(null, player.getBlockPos(), TrionSounds.TRANSFORMATION_ON, SoundCategory.PLAYERS, .8f, 1f);
 				activating = false;
@@ -96,7 +88,7 @@ public class TrionComponentImpl implements TrionComponent {
 					if (getEntity().world.getTime() % 50 == 0) {
 						setTrion(getTrion() - 1, true);
 					}
-					for (Trigger trigger : getEquippedTriggers()) {
+					for (Trigger trigger : config.getEquippedTriggers()) {
 						trigger.tick(this);
 					}
 				}
@@ -117,10 +109,10 @@ public class TrionComponentImpl implements TrionComponent {
 	}
 
 	@Override
-	public void activateTrigger(List<Trigger> equippedTriggers) {
+	public void activateTrigger(TriggerConfig config) {
 		if (burst) return; //TODO: sound effect
 		activating = true;
-		this.equippedTriggers = equippedTriggers;
+		this.config = config;
 		if (!player.world.isClient) {
 			((ServerWorld)player.world).spawnParticles(TrionParticles.TRANSFORMATION, player.getX(), player.getY(), player.getZ(), 100, 0.0F, 0.0F, 0.0F, 0.25F);
 			player.world.playSound(null, player.getBlockPos(), TrionSounds.TRANSFORMATION_CHARGE, SoundCategory.PLAYERS, 1f, 1f);
@@ -132,7 +124,6 @@ public class TrionComponentImpl implements TrionComponent {
 	public void deactivateTrigger() {
 		if (player.hasStatusEffect(TrionStatusEffects.VIRTUAL_COMBAT)) return; //TODO: keep this?
 		triggerActive = false;
-		equippedTriggers.clear();
 		for (EquipmentSlot slot : EquipmentSlot.values()) {
 			player.equipStack(slot, TrionArmorItem.getOriginalStack(player.getEquippedStack(slot)));
 		}
@@ -141,8 +132,8 @@ public class TrionComponentImpl implements TrionComponent {
 	}
 
 	@Override
-	public ImmutableList<Trigger> getEquippedTriggers() {
-		return ImmutableList.copyOf(equippedTriggers);
+	public TriggerConfig getConfig() {
+		return config;
 	}
 
 	@Override
@@ -211,12 +202,8 @@ public class TrionComponentImpl implements TrionComponent {
 		activationTime = tag.getInt("ActivationTime");
 		virtualTrion = tag.getInt("VirtualTrion");
 		virtualTrionCooldown = tag.getInt("VirtualTrionCooldown");
-		List<Trigger> triggerList = new ArrayList<>();
-		ListTag triggerTag = tag.getList("EquippedTriggers", NbtType.STRING);
-		for (Tag trigger : triggerTag) {
-			triggerList.add(Trion.TRIGGERS.get(new Identifier(trigger.asString())));
-		}
-		this.equippedTriggers = triggerList;
+		config = new TriggerConfigImpl();
+		config.fromTag(tag.getCompound("Config"));
 	}
 
 	@Override
@@ -229,11 +216,7 @@ public class TrionComponentImpl implements TrionComponent {
 		tag.putInt("ActivationTime", activationTime);
 		tag.putInt("VirtualTrion", virtualTrion);
 		tag.putInt("VirtualTrionCooldown", virtualTrionCooldown);
-		ListTag triggerList = new ListTag();
-		for (Trigger trigger : equippedTriggers) {
-			triggerList.add(StringTag.of(Trion.TRIGGERS.getId(trigger).toString()));
-		}
-		tag.put("EquippedTriggers", triggerList);
+		tag.put("Config", config.toTag(new CompoundTag()));
 		return tag;
 	}
 }

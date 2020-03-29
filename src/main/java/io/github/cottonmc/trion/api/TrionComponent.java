@@ -1,6 +1,5 @@
 package io.github.cottonmc.trion.api;
 
-import com.google.common.collect.ImmutableList;
 import nerdhub.cardinal.components.api.util.sync.EntitySyncedComponent;
 
 import java.util.List;
@@ -9,9 +8,9 @@ import java.util.List;
 public interface TrionComponent extends EntitySyncedComponent {
 	boolean isTriggerActive();
 	void tick();
-	void activateTrigger(List<Trigger> equippedTriggers);
+	void activateTrigger(TriggerConfig config);
 	void deactivateTrigger();
-	ImmutableList<Trigger> getEquippedTriggers();
+	TriggerConfig getConfig();
 	boolean isBurst(); //TODO: better name?
 	int getTrion();
 	default void setTrion(int trion) {

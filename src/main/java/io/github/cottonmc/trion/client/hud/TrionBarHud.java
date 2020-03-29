@@ -9,6 +9,7 @@ import net.minecraft.client.render.BufferBuilder;
 import net.minecraft.client.render.Tessellator;
 import net.minecraft.client.render.VertexFormats;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.Util;
 import org.lwjgl.opengl.GL11;
 
 public class TrionBarHud {
@@ -36,7 +37,7 @@ public class TrionBarHud {
 	//TODO: any better way to do color and fadeout?
 	public static void render(float tickDelta) {
 		int color = client.player.hasStatusEffect(TrionStatusEffects.VIRTUAL_COMBAT)? virtualColor : normalColor;
-		long now = System.nanoTime() / 1_000_000L;
+		long now = Util.getMeasuringTimeMs();
 		TrionComponent component = Trion.TRION_COMPONENT.get(client.player);
 		if (component.isBurst()) color = burstColor;
 		if (component.isTriggerActive()) {

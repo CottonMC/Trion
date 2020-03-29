@@ -1,5 +1,6 @@
 package io.github.cottonmc.trion.item;
 
+import io.github.cottonmc.trion.api.TriggerConfig;
 import io.github.cottonmc.trion.registry.TrionItems;
 import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.EquipmentSlot;
@@ -14,8 +15,9 @@ public class TrionArmorItem extends DyeableArmorItem {
 		super(material, slot, settings);
 	}
 
-	public static ItemStack getTrionStack(EquipmentSlot slot, ItemStack previous, int color) {
+	public static ItemStack getTrionStack(EquipmentSlot slot, ItemStack previous, TriggerConfig config) {
 		Item item;
+		int color = config.getColor(slot);
 		switch(slot) {
 			case HEAD:
 				item = TrionItems.TRION_HELMET;
@@ -36,6 +38,8 @@ public class TrionArmorItem extends DyeableArmorItem {
 		CompoundTag tag = ret.getOrCreateTag();
 		tag.put("Previous", previous.toTag(new CompoundTag()));
 		tag.putBoolean("Unbreakable", true);
+		CompoundTag displayTag = ret.getOrCreateSubTag("display");
+		displayTag.putString("Texture", config.getTextureId(slot).toString());
 		ret.addEnchantment(Enchantments.BINDING_CURSE, 1);
 		((TrionArmorItem)item).setColor(ret, color);
 		return ret;

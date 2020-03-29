@@ -2,7 +2,9 @@ package io.github.cottonmc.trion.item;
 
 import io.github.cottonmc.trion.Trion;
 import io.github.cottonmc.trion.api.Trigger;
+import io.github.cottonmc.trion.api.TriggerConfig;
 import io.github.cottonmc.trion.api.TrionComponent;
+import io.github.cottonmc.trion.impl.TriggerConfigImpl;
 import net.fabricmc.fabric.api.util.NbtType;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -33,20 +35,17 @@ public class TriggerHolderItem extends Item {
 			component.deactivateTrigger();
 			user.getItemCooldownManager().set(this, 60);
 		} else {
-			component.activateTrigger(getTriggers(stack));
+			component.activateTrigger(getConfig(stack));
 			user.getItemCooldownManager().set(this, 30);
 		}
 		return TypedActionResult.success(stack);
 	}
 
-	private List<Trigger> getTriggers(ItemStack stack) {
-		List<Trigger> ret = new ArrayList<>();
+	private TriggerConfig getConfig(ItemStack stack) {
+		TriggerConfig ret = new TriggerConfigImpl();
 		CompoundTag tag = stack.getOrCreateTag();
-		if (tag.contains("Triggers", NbtType.LIST)) {
-			ListTag triggerTag = tag.getList("Triggers", NbtType.STRING);
-			for (Tag name : triggerTag) {
-				ret.add(Trion.TRIGGERS.get(new Identifier(name.asString())));
-			}
+		if (tag.contains("TriggerConfig", NbtType.COMPOUND)) {
+			ret.fromTag(tag.getCompound("TriggerConfig"));
 		}
 		return ret;
 	}

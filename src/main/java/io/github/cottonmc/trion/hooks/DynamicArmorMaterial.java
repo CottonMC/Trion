@@ -1,12 +1,14 @@
 package io.github.cottonmc.trion.hooks;
 
+import net.fabricmc.fabric.api.util.NbtType;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.item.ArmorMaterial;
+import net.minecraft.item.ItemStack;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.Identifier;
 
-public class CustomArmorMaterial implements ArmorMaterial {
+public class DynamicArmorMaterial implements ArmorMaterial {
 	private static final int[] BASE_DURABILITY = new int[]{13, 15, 16, 11};
 
 	private int durabilityMultiplier;
@@ -15,16 +17,16 @@ public class CustomArmorMaterial implements ArmorMaterial {
 	private SoundEvent equipSound;
 	private Ingredient repairIngredient;
 	private float toughness;
-	private Identifier id;
+	private Identifier defaultId;
 
-	public CustomArmorMaterial(int durabilityMultiplier, int[] protectionAmounts, int enchantability, SoundEvent equipSound, Ingredient repairIngredient, float toughness, Identifier id) {
+	public DynamicArmorMaterial(int durabilityMultiplier, int[] protectionAmounts, int enchantability, SoundEvent equipSound, Ingredient repairIngredient, float toughness, Identifier defaultId) {
 		this.durabilityMultiplier = durabilityMultiplier;
 		this.protectionAmounts = protectionAmounts;
 		this.enchantability = enchantability;
 		this.equipSound = equipSound;
 		this.repairIngredient = repairIngredient;
 		this.toughness = toughness;
-		this.id = id;
+		this.defaultId = defaultId;
 	}
 
 	@Override
@@ -54,7 +56,7 @@ public class CustomArmorMaterial implements ArmorMaterial {
 
 	@Override
 	public String getName() {
-		return id.getPath();
+		return defaultId.getPath();
 	}
 
 	@Override
@@ -62,7 +64,15 @@ public class CustomArmorMaterial implements ArmorMaterial {
 		return toughness;
 	}
 
-	public Identifier getId() {
-		return id;
+	public Identifier getDefaultId() {
+		return defaultId;
+	}
+
+	public Identifier getId(ItemStack stack) {
+		if (stack.getOrCreateSubTag("display").contains("Texture", NbtType.STRING)) {
+			return new Identifier(stack.getOrCreateSubTag("display").getString("Texture"));
+		} else {
+			return getDefaultId();
+		}
 	}
 }

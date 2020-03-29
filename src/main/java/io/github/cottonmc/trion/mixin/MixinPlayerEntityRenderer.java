@@ -19,9 +19,10 @@ public class MixinPlayerEntityRenderer {
 	private void hideWithChameleon(AbstractClientPlayerEntity entity, float f, float g, MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int i, CallbackInfo info) {
 		TrionComponent comp = Trion.TRION_COMPONENT.get(entity);
 		//only hide if we're not holding anything and the Chameleon trigger is in use!
+		//TODO: hide shadow too
 		if (comp.isTriggerActive()
 				&& entity.getStackInHand(Hand.MAIN_HAND).isEmpty()
 				&& entity.getStackInHand(Hand.OFF_HAND).isEmpty()
-				&& comp.getEquippedTriggers().contains(TrionTriggers.CHAMELEON)) info.cancel();
+				&& comp.getConfig().getEquippedTriggers().contains(TrionTriggers.CHAMELEON)) info.cancel();
 	}
 }
