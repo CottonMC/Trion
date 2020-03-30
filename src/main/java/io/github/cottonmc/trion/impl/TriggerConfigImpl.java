@@ -29,7 +29,7 @@ public class TriggerConfigImpl implements TriggerConfig {
 	@Override
 	public Identifier getTextureId(EquipmentSlot slot) {
 		if (textures.containsKey(slot)) return textures.get(slot);
-		return new Identifier(Trion.MODID, "style1"); //Tamakoma-2 texture
+		return new Identifier(Trion.MODID, "strategist_shaded"); //Tamakoma-2 texture
 	}
 
 	public void setTextureId(EquipmentSlot slot, Identifier id) {
@@ -39,7 +39,7 @@ public class TriggerConfigImpl implements TriggerConfig {
 	@Override
 	public int getColor(EquipmentSlot slot) {
 		if (colors.containsKey(slot)) return colors.getInt(slot);
-		return 0x5FEC94; //Tamakoma-2 color
+		return 0x388e9a; //Tamakoma-2 color
 	}
 
 	public void setColor(EquipmentSlot slot, int color) {

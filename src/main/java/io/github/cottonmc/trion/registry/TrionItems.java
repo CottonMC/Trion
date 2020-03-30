@@ -14,7 +14,7 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 
 public class TrionItems {
-	public static final ArmorMaterial TRION_ARMOR = new DynamicArmorMaterial(1, new int[]{0, 0, 0, 0}, 0, SoundEvents.ITEM_ARMOR_EQUIP_GENERIC, Ingredient.EMPTY, 0f, new Identifier(Trion.MODID, "style1"));
+	public static final ArmorMaterial TRION_ARMOR = new DynamicArmorMaterial(1, new int[]{0, 0, 0, 0}, 0, SoundEvents.ITEM_ARMOR_EQUIP_GENERIC, Ingredient.EMPTY, 0f, new Identifier(Trion.MODID, "strategist_shaded"));
 
 	public static final Item TRIGGER = register(new TriggerHolderItem(defaultSettings()), "trigger_holder");
 	public static final Item TRION_HELMET = register(new TrionArmorItem(TRION_ARMOR, EquipmentSlot.HEAD, defaultSettings()), "trion_helmet");

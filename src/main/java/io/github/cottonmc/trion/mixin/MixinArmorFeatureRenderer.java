@@ -34,6 +34,11 @@ public abstract class MixinArmorFeatureRenderer<T extends LivingEntity, M extend
 	@Final
 	private static Map<String, Identifier> ARMOR_TEXTURE_CACHE;
 
+	@Shadow protected abstract void setVisible(A bipedModel, EquipmentSlot equipmentSlot);
+
+	private final A CUSTOM_BODY = (A) new BipedEntityModel<>(0.25f);
+	private final A CUSTOM_HEAD = (A) new BipedEntityModel<>(0.75f);
+
 	public MixinArmorFeatureRenderer(FeatureRendererContext<T, M> context) {
 		super(context);
 	}
@@ -43,6 +48,11 @@ public abstract class MixinArmorFeatureRenderer<T extends LivingEntity, M extend
 									  ItemStack stack, ArmorItem armor, A model, boolean isLegs, boolean hasGlint, int colorHex, float r, float g, float b) {
 		if (armor.getMaterial() instanceof DynamicArmorMaterial) {
 			DynamicArmorMaterial material = (DynamicArmorMaterial)armor.getMaterial();
+			model = slot == EquipmentSlot.HEAD? CUSTOM_HEAD : CUSTOM_BODY;
+			this.getContextModel().setAttributes(model);
+			model.animateModel(wearer, limbAngle, limbDistance, tickDelta);
+			setVisible(model, slot);
+			model.setAngles(wearer, limbAngle, limbDistance, customAngle, headYaw, headPitch);
 			renderDynamicArmorParts(matrices, vertexProvider, light, stack, material, hasGlint, model, isLegs, r, g, b, null);
 			renderDynamicArmorParts(matrices, vertexProvider, light, stack, material, hasGlint, model, isLegs, 1f, 1f, 1f, "overlay");
 			info.cancel();
