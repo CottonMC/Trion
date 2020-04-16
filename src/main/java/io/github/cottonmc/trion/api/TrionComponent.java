@@ -2,8 +2,6 @@ package io.github.cottonmc.trion.api;
 
 import nerdhub.cardinal.components.api.util.sync.EntitySyncedComponent;
 
-import java.util.List;
-
 //TODO: documentation
 public interface TrionComponent extends EntitySyncedComponent {
 	boolean isTriggerActive();

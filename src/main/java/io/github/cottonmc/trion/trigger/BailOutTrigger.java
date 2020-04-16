@@ -1,9 +1,9 @@
 package io.github.cottonmc.trion.trigger;
 
 import io.github.cottonmc.trion.api.Trigger;
+import io.github.cottonmc.trion.api.TriggerShifter;
 import io.github.cottonmc.trion.api.TrionComponent;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 
 public class BailOutTrigger implements Trigger {
@@ -24,8 +24,8 @@ public class BailOutTrigger implements Trigger {
 	}
 
 	@Override
-	public ItemStack getStack(TrionComponent component) {
-		return ItemStack.EMPTY; //TODO: manual bail out
+	public TriggerShifter getShifter() {
+		return TriggerShifter.NONE; //TODO: manual bail out
 	}
 
 }

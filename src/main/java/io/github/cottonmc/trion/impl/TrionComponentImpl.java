@@ -3,6 +3,7 @@ package io.github.cottonmc.trion.impl;
 import io.github.cottonmc.trion.Trion;
 import io.github.cottonmc.trion.api.Trigger;
 import io.github.cottonmc.trion.api.TriggerConfig;
+import io.github.cottonmc.trion.api.TriggerShifter;
 import io.github.cottonmc.trion.api.TrionComponent;
 import io.github.cottonmc.trion.item.TrionArmorItem;
 import io.github.cottonmc.trion.registry.TrionParticles;
@@ -12,6 +13,7 @@ import nerdhub.cardinal.components.api.ComponentType;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
@@ -47,6 +49,7 @@ public class TrionComponentImpl implements TrionComponent {
 		return triggerActive;
 	}
 
+	//TODO: should more of this be codified in the API?
 	@Override
 	public void tick() {
 		if (activating) {
@@ -54,6 +57,7 @@ public class TrionComponentImpl implements TrionComponent {
 				((ServerWorld) player.world).spawnParticles(TrionParticles.TRANSFORMATION, player.getX(), player.getY(), player.getZ(), 25, 0.0F, 0.0F, 0.0F, 0.25F);
 				activationTime++;
 			} else {
+				//TODO: equip shifters for triggers
 				for (EquipmentSlot slot : EquipmentSlot.values()) {
 					player.equipStack(slot, TrionArmorItem.getTrionStack(slot, player.getEquippedStack(slot), config));
 				}
@@ -120,12 +124,16 @@ public class TrionComponentImpl implements TrionComponent {
 		sync();
 	}
 
+	//TODO: delay before deactivation?
 	@Override
 	public void deactivateTrigger() {
 		if (player.hasStatusEffect(TrionStatusEffects.VIRTUAL_COMBAT)) return; //TODO: keep this?
 		triggerActive = false;
 		for (EquipmentSlot slot : EquipmentSlot.values()) {
-			player.equipStack(slot, TrionArmorItem.getOriginalStack(player.getEquippedStack(slot)));
+			ItemStack equipped = player.getEquippedStack(slot);
+			if (equipped.getItem() instanceof TriggerShifter) {
+				player.equipStack(slot, ((TriggerShifter)equipped.getItem()).unequip(equipped));
+			}
 		}
 		player.world.playSound(null, player.getBlockPos(), TrionSounds.TRANSFORMATION_OFF, SoundCategory.PLAYERS, .8f, 1f);
 		sync();

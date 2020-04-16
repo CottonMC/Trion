@@ -15,8 +15,8 @@ public interface Trigger {
 		public void tick(TrionComponent component) { }
 
 		@Override
-		public ItemStack getStack(TrionComponent component) {
-			return ItemStack.EMPTY;
+		public TriggerShifter getShifter() {
+			return TriggerShifter.NONE;
 		}
 	});
 
@@ -26,12 +26,12 @@ public interface Trigger {
 	 */
 	void tick(TrionComponent component);
 
+
 	/**
-	 * Called on trigger activation to equip a player with their weapons.
-	 * @param component The component this trigger is active in.
-	 * @return The stack this trigger gives to the player.
+	 * Used during trigger activation to equip a player.
+	 * @return The shifter used to convert previous equipment to Trion equipment.
 	 */
-	ItemStack getStack(TrionComponent component);
+	TriggerShifter getShifter();
 
 	/**
 	 * @return The translation key for this trigger.

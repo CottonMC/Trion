@@ -5,6 +5,7 @@ import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.Identifier;
 
+//TODO: documentation
 public interface TriggerConfig {
 	Identifier getTextureId(EquipmentSlot slot);
 	int getColor(EquipmentSlot slot);
