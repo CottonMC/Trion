@@ -6,6 +6,7 @@ import io.github.cottonmc.trion.api.TriggerConfig;
 import io.github.cottonmc.trion.api.TrionComponent;
 import io.github.cottonmc.trion.impl.TriggerConfigImpl;
 import net.fabricmc.fabric.api.util.NbtType;
+import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
@@ -13,11 +14,16 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
+import net.minecraft.text.LiteralText;
+import net.minecraft.text.Text;
+import net.minecraft.text.TranslatableText;
+import net.minecraft.util.Formatting;
 import net.minecraft.util.Hand;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.world.World;
 
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,5 +54,14 @@ public class TriggerHolderItem extends Item {
 			ret.fromTag(tag.getCompound("TriggerConfig"));
 		}
 		return ret;
+	}
+
+	@Override
+	public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
+		super.appendTooltip(stack, world, tooltip, context);
+		TriggerConfig config = getConfig(stack);
+		for (Trigger trigger : config.getEquippedTriggers()) {
+			tooltip.add(new LiteralText("").append(new TranslatableText(trigger.getTranslationKey())).formatted(Formatting.GRAY));
+		}
 	}
 }

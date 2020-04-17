@@ -3,6 +3,7 @@ package io.github.cottonmc.trion.trigger;
 import io.github.cottonmc.trion.api.Trigger;
 import io.github.cottonmc.trion.api.TriggerShifter;
 import io.github.cottonmc.trion.api.TrionComponent;
+import io.github.cottonmc.trion.registry.TrionItems;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.BlockPos;
 
@@ -25,7 +26,7 @@ public class BailOutTrigger implements Trigger {
 
 	@Override
 	public TriggerShifter getShifter() {
-		return TriggerShifter.NONE; //TODO: manual bail out
+		return (TriggerShifter) TrionItems.BAIL_OUT;
 	}
 
 }

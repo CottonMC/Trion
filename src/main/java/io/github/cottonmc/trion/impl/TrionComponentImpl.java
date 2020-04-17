@@ -6,6 +6,7 @@ import io.github.cottonmc.trion.api.TriggerConfig;
 import io.github.cottonmc.trion.api.TriggerShifter;
 import io.github.cottonmc.trion.api.TrionComponent;
 import io.github.cottonmc.trion.item.TrionArmorItem;
+import io.github.cottonmc.trion.registry.TrionItems;
 import io.github.cottonmc.trion.registry.TrionParticles;
 import io.github.cottonmc.trion.registry.TrionSounds;
 import io.github.cottonmc.trion.registry.TrionStatusEffects;
@@ -13,10 +14,13 @@ import nerdhub.cardinal.components.api.ComponentType;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
+
+import java.util.List;
 
 public class TrionComponentImpl implements TrionComponent {
 	//core information
@@ -49,7 +53,7 @@ public class TrionComponentImpl implements TrionComponent {
 		return triggerActive;
 	}
 
-	//TODO: should more of this be codified in the API?
+	//TODO: more of this be codified in the API? startup process especially
 	@Override
 	public void tick() {
 		if (activating) {
@@ -60,6 +64,22 @@ public class TrionComponentImpl implements TrionComponent {
 				//TODO: equip shifters for triggers
 				for (EquipmentSlot slot : EquipmentSlot.values()) {
 					player.equipStack(slot, TrionArmorItem.getTrionStack(slot, player.getEquippedStack(slot), config));
+				}
+				PlayerInventory inv = player.inventory;
+				List<Trigger> triggers = config.getEquippedTriggers();
+				int nextInvSlot = 0;
+				//TODO: make this work a *lot* better bc this is just fucking garbage
+				for (Trigger trigger : triggers) {
+					if (trigger.getShifter() == TriggerShifter.NONE) continue;
+					for (int i = nextInvSlot; i < 9; i++) {
+						ItemStack stack = inv.getInvStack(i);
+						if (stack.getItem() == TrionItems.TRIGGER_HOLDER) { //TODO: make this better?
+							continue;
+						}
+						inv.setInvStack(i, trigger.getShifter().equip(inv.getInvStack(i), config));
+						nextInvSlot = i + 1;
+						break;
+					}
 				}
 				player.world.playSound(null, player.getBlockPos(), TrionSounds.TRANSFORMATION_ON, SoundCategory.PLAYERS, .8f, 1f);
 				activating = false;
