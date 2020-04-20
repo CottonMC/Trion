@@ -1,6 +1,6 @@
 package io.github.cottonmc.trion.mixin;
 
-import io.github.cottonmc.trion.api.TriggerShifter;
+import io.github.cottonmc.trion.api.TriggerItem;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.item.ItemStack;
 import org.spongepowered.asm.mixin.Mixin;
@@ -17,8 +17,8 @@ public abstract class MixinItemEntity {
 
 	@Inject(method = "tick", at = @At("HEAD"))
 	private void injectRevert(CallbackInfo info) {
-		if (getStack().getItem() instanceof TriggerShifter) {
-			TriggerShifter shifter = (TriggerShifter) getStack().getItem();
+		if (getStack().getItem() instanceof TriggerItem) {
+			TriggerItem shifter = (TriggerItem) getStack().getItem();
 			setStack(shifter.unequip(getStack()));
 		}
 	}

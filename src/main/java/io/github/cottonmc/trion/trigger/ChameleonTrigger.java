@@ -1,7 +1,7 @@
 package io.github.cottonmc.trion.trigger;
 
 import io.github.cottonmc.trion.api.Trigger;
-import io.github.cottonmc.trion.api.TriggerShifter;
+import io.github.cottonmc.trion.api.TriggerItem;
 import io.github.cottonmc.trion.api.TrionComponent;
 import net.minecraft.entity.player.PlayerEntity;
 
@@ -15,7 +15,7 @@ public class ChameleonTrigger implements Trigger {
 	}
 
 	@Override
-	public TriggerShifter getShifter() {
-		return TriggerShifter.NONE;
+	public TriggerItem getShifter() {
+		return TriggerItem.NONE;
 	}
 }

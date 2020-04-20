@@ -1,7 +1,7 @@
 package io.github.cottonmc.trion.item;
 
 import io.github.cottonmc.trion.Trion;
-import io.github.cottonmc.trion.api.TriggerShifter;
+import io.github.cottonmc.trion.api.TriggerItem;
 import io.github.cottonmc.trion.api.TrionComponent;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -13,7 +13,7 @@ import net.minecraft.util.UseAction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class BailOutItem extends Item implements TriggerShifter {
+public class BailOutItem extends Item implements TriggerItem {
 	public BailOutItem(Settings settings) {
 		super(settings);
 	}
@@ -51,8 +51,6 @@ public class BailOutItem extends Item implements TriggerShifter {
 				//TODO: process for bailing out instead? That might take a rework on how trion components work though..
 				player.teleport(spawnPos.getX(), spawnPos.getY(), spawnPos.getZ());
 				component.deactivateTrigger();
-			} else {
-				System.out.println("Could not teleport, too far away!");
 			}
 		}
 		return stack;

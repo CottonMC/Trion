@@ -6,8 +6,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.CompoundTag;
 
-public interface TriggerShifter extends ItemConvertible {
-	TriggerShifter NONE = new TriggerShifter() {
+public interface TriggerItem extends ItemConvertible {
+	TriggerItem NONE = new TriggerItem() {
 		@Override
 		public Item asItem() {
 			return Items.AIR;

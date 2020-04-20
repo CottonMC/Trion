@@ -3,7 +3,7 @@ package io.github.cottonmc.trion.impl;
 import io.github.cottonmc.trion.Trion;
 import io.github.cottonmc.trion.api.Trigger;
 import io.github.cottonmc.trion.api.TriggerConfig;
-import io.github.cottonmc.trion.api.TriggerShifter;
+import io.github.cottonmc.trion.api.TriggerItem;
 import io.github.cottonmc.trion.api.TrionComponent;
 import io.github.cottonmc.trion.item.TrionArmorItem;
 import io.github.cottonmc.trion.registry.TrionItems;
@@ -70,7 +70,7 @@ public class TrionComponentImpl implements TrionComponent {
 				int nextInvSlot = 0;
 				//TODO: make this work a *lot* better bc this is just fucking garbage
 				for (Trigger trigger : triggers) {
-					if (trigger.getShifter() == TriggerShifter.NONE) continue;
+					if (trigger.getShifter() == TriggerItem.NONE) continue;
 					for (int i = nextInvSlot; i < 9; i++) {
 						ItemStack stack = inv.getInvStack(i);
 						if (stack.getItem() == TrionItems.TRIGGER_HOLDER) { //TODO: make this better?
@@ -151,8 +151,8 @@ public class TrionComponentImpl implements TrionComponent {
 		triggerActive = false;
 		for (EquipmentSlot slot : EquipmentSlot.values()) {
 			ItemStack equipped = player.getEquippedStack(slot);
-			if (equipped.getItem() instanceof TriggerShifter) {
-				player.equipStack(slot, ((TriggerShifter)equipped.getItem()).unequip(equipped));
+			if (equipped.getItem() instanceof TriggerItem) {
+				player.equipStack(slot, ((TriggerItem)equipped.getItem()).unequip(equipped));
 			}
 		}
 		player.world.playSound(null, player.getBlockPos(), TrionSounds.TRANSFORMATION_OFF, SoundCategory.PLAYERS, .8f, 1f);
