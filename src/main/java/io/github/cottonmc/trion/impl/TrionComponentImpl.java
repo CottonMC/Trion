@@ -70,13 +70,13 @@ public class TrionComponentImpl implements TrionComponent {
 				int nextInvSlot = 0;
 				//TODO: make this work a *lot* better bc this is just fucking garbage
 				for (Trigger trigger : triggers) {
-					if (trigger.getShifter() == TriggerItem.NONE) continue;
+					if (trigger.getItem() == TriggerItem.NONE) continue;
 					for (int i = nextInvSlot; i < 9; i++) {
 						ItemStack stack = inv.getInvStack(i);
 						if (stack.getItem() == TrionItems.TRIGGER_HOLDER) { //TODO: make this better?
 							continue;
 						}
-						inv.setInvStack(i, trigger.getShifter().equip(inv.getInvStack(i), config));
+						inv.setInvStack(i, trigger.getItem().equip(inv.getInvStack(i), config));
 						nextInvSlot = i + 1;
 						break;
 					}

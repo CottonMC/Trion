@@ -1,6 +1,7 @@
 package io.github.cottonmc.trion.api;
 
 import io.github.cottonmc.trion.Trion;
+import net.minecraft.item.Item;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Identifier;
@@ -14,7 +15,7 @@ public interface Trigger {
 		public void tick(TrionComponent component) { }
 
 		@Override
-		public TriggerItem getShifter() {
+		public TriggerItem getItem() {
 			return TriggerItem.NONE;
 		}
 	});
@@ -28,14 +29,17 @@ public interface Trigger {
 
 	/**
 	 * Used during trigger activation to equip a player.
-	 * @return The shifter used to convert previous equipment to Trion equipment.
+	 * @return The item form of this Trigger, or {@link TriggerItem#NONE} if it doesn't have an item and is purely passive.
 	 */
-	TriggerItem getShifter();
+	TriggerItem getItem();
 
 	/**
 	 * @return The translation key for this trigger.
 	 */
 	default String getTranslationKey() {
+		if (getItem() instanceof Item) {
+			return ((Item)getItem()).getTranslationKey();
+		}
 		Identifier id = Trion.TRIGGERS.getId(this);
 		return "trigger." + id.getNamespace() + "." + id.getPath();
 	}

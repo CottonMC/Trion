@@ -9,7 +9,6 @@ import net.minecraft.util.registry.Registry;
 
 public class TrionStatusEffects {
 	public static final StatusEffect VIRTUAL_COMBAT = register(new CustomStatusEffect(StatusEffectType.NEUTRAL, 0x5FD3EC), "virtual_combat");
-	public static final StatusEffect CHAMELEON = register(new CustomStatusEffect(StatusEffectType.BENEFICIAL, 0xFFFFFF), "chameleon"); //TODO: color, should this be something other than a status effect?
 
 	public static void init() { }
 

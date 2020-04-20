@@ -25,7 +25,7 @@ public class BailOutTrigger implements Trigger {
 	}
 
 	@Override
-	public TriggerItem getShifter() {
+	public TriggerItem getItem() {
 		return (TriggerItem) TrionItems.BAIL_OUT;
 	}
 
