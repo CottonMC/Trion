@@ -3,23 +3,40 @@ package io.github.cottonmc.trion.mixin;
 import io.github.cottonmc.trion.Trion;
 import io.github.cottonmc.trion.api.TrionComponent;
 import io.github.cottonmc.trion.combat.TrionDamageSource;
+import io.github.cottonmc.trion.item.TrionShield;
 import io.github.cottonmc.trion.registry.TrionStatusEffects;
+import net.minecraft.advancement.criterion.Criterions;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.entity.player.ItemCooldownManager;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
+import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.sound.SoundEvent;
+import net.minecraft.sound.SoundEvents;
+import net.minecraft.stat.Stats;
+import net.minecraft.util.UseAction;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(PlayerEntity.class)
 public abstract class MixinPlayerEntity extends LivingEntity {
 	@Shadow public abstract boolean isCreative();
+
+	@Shadow public abstract void playSound(SoundEvent sound, float volume, float pitch);
+
+	@Shadow public abstract ItemCooldownManager getItemCooldownManager();
 
 	protected MixinPlayerEntity(EntityType<? extends LivingEntity> type, World world) {
 		super(type, world);
@@ -39,7 +56,19 @@ public abstract class MixinPlayerEntity extends LivingEntity {
 		TrionComponent comp = Trion.TRION_COMPONENT.get(this);
 		//TODO: better way to fix so virtual combat can't be used to cheese PvE?
 		if (hasStatusEffect(TrionStatusEffects.VIRTUAL_COMBAT) && !(source instanceof TrionDamageSource)) return;
+
 		if (comp.isTriggerActive()) {
+			if (amount > 0.0F && ((LivingEntityAccessor) this).invokeBlockedByShield(source)) {
+				damageShield(amount);
+				amount = 0.0F;
+				if (!source.isProjectile()) {
+					Entity entity = source.getSource();
+					if (entity instanceof LivingEntity) {
+						takeShieldHit((LivingEntity)entity);
+					}
+				}
+				//TODO: blocked-by-shield stat increase?
+			}
 			int trionCost = source.bypassesArmor()? (int)Math.ceil(amount * 5) : (int)Math.ceil(amount * 2.5); //TODO: rebalance?
 			comp.setTrion(comp.getTrion() - trionCost);
 			super.damage(source, 0f);
@@ -57,6 +86,32 @@ public abstract class MixinPlayerEntity extends LivingEntity {
 				&& !(target instanceof PlayerEntity)) {
 			//TODO: check if using trion weapon?
 			info.cancel();
+		}
+	}
+
+	@Inject(method = "damageShield", at = @At("HEAD"), cancellable = true)
+	private void damageTrionShield(float amount, CallbackInfo info) {
+		if (amount > 1.0F && activeItemStack.getItem() instanceof TrionShield) {
+			PlayerEntity self = (PlayerEntity) (Object) this;
+			TrionShield shield = (TrionShield) activeItemStack.getItem();
+			int damage = 1 + MathHelper.floor(amount);
+			shield.damageShield(self, activeItemStack, damage);
+			if (shield.getShieldDamage(self, activeItemStack) == shield.getMaxShieldDamage(self, activeItemStack)) {
+				playSound(SoundEvents.ITEM_SHIELD_BREAK, 0.8F, 0.8F + world.random.nextFloat() * 0.4F);
+				getItemCooldownManager().set(activeItemStack.getItem(), 200);
+				clearActiveItem();
+				world.sendEntityStatus(self, (byte)30);
+			}
+		}
+		info.cancel();
+	}
+
+	@Inject(method = "getHurtSound", at = @At("HEAD"), cancellable = true)
+	private void injectTrionSound(DamageSource source, CallbackInfoReturnable<SoundEvent> info) {
+		TrionComponent comp = Trion.TRION_COMPONENT.get(this);
+		if (comp.isTriggerActive()) {
+			if (isBlocking()) info.setReturnValue(SoundEvents.ITEM_SHIELD_BLOCK);
+			//TODO: trion damage sound effect here
 		}
 	}
 

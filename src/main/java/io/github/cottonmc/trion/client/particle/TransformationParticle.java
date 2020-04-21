@@ -16,6 +16,7 @@ public class TransformationParticle extends AnimatedParticle {
 		this.maxAge = 30 + this.random.nextInt(12);
 		this.collidesWithWorld = false;
 		this.setSpriteForAge(spriteProvider);
+		//TODO: proper transformation colors
 		if (this.random.nextInt(4) == 0) {
 			this.setColor(0.37F + this.random.nextFloat() * 0.2F, Math.min(1F, 0.93F + this.random.nextFloat() * 0.3F), 0.58F + this.random.nextFloat() * 0.2F);
 		} else {

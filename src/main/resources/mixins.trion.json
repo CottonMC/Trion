@@ -3,6 +3,7 @@
   "package": "io.github.cottonmc.trion.mixin",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
+    "LivingEntityAccessor",
     "MixinItemEntity",
     "MixinDamageSource",
     "MixinItemStack",
@@ -12,6 +13,7 @@
   "client": [
     "MixinArmorFeatureRenderer",
     "MixinClientEntity",
+    "MixinItemRenderer",
     "MixinPlayerEntityRenderer"
   ]
 }
