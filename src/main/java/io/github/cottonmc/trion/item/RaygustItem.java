@@ -59,7 +59,7 @@ public class RaygustItem extends SwordItem implements TrionShield, TriggerItem {
 
 	@Override
 	public int getColor(PlayerEntity wielder, ItemStack stack) {
-		return 0x5fec94; //TODO: yellow trion color
+		return 0xe4e072;
 	}
 
 	@Override

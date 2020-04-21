@@ -26,7 +26,7 @@ public class Trion implements ModInitializer {
 	public static final ComponentType<TrionComponent> TRION_COMPONENT = ComponentRegistry.INSTANCE.registerIfAbsent(new Identifier(MODID, "trion"), TrionComponent.class);
 	public static final Registry<Trigger> TRIGGERS = new DefaultedRegistry<>("trion:empty");
 
-	//green trion color is 0x5fec94, takamoma-2 color is 0x388e9a
+	//green trion color is 0x5fec94, yellow trion color is 0xe4e072, takamoma-2 color is 0x388e9a
 
 	public static final Logger logger = LogManager.getLogger(MODID);
 
