@@ -1,0 +1,32 @@
+{
+	"parent": "trion:item/trion_shield",
+	"display": {
+		"thirdperson_righthand": {
+			"rotation": [45, -30, 0],
+			"translation": [0, 3, 0]
+		},
+		"thirdperson_lefthand": {
+			"rotation": [45, -30, 0],
+			"translation": [0, 3, 0]
+		},
+		"firstperson_righthand": {
+			"rotation": [0, 0, 0],
+			"translation": [-2, 3, 0]
+		},
+		"firstperson_lefthand": {
+			"rotation": [0, 0, 0],
+			"translation": [-2, 3, 0]
+		},
+		"ground": {
+			"translation": [0, 2, 0],
+			"scale": [0.5, 0.5, 0.5]
+		},
+		"head": {
+			"rotation": [0, 90, 0],
+			"translation": [0, 0, -6.75]
+		},
+		"fixed": {
+			"rotation": [0, 90, 0]
+		}
+	}
+}

@@ -60,8 +60,11 @@ public class TriggerHolderItem extends Item {
 	public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
 		super.appendTooltip(stack, world, tooltip, context);
 		TriggerConfig config = getConfig(stack);
-		for (Trigger trigger : config.getEquippedTriggers()) {
-			tooltip.add(new LiteralText("").append(new TranslatableText(trigger.getTranslationKey())).formatted(Formatting.GRAY));
+		if (!config.getEquippedTriggers().isEmpty()) {
+			tooltip.add(new TranslatableText("tooltip.trion.triggers").formatted(Formatting.GRAY));
+			for (Trigger trigger : config.getEquippedTriggers()) {
+				tooltip.add(new LiteralText("  - ").formatted(Formatting.GRAY).append(new TranslatableText(trigger.getTranslationKey()).formatted(Formatting.GREEN)).formatted(Formatting.GRAY));
+			}
 		}
 	}
 }

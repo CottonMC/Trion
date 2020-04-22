@@ -33,14 +33,14 @@ public abstract class MixinItemRenderer {
 			Tessellator tessellator = Tessellator.getInstance();
 			BufferBuilder builder = tessellator.getBuffer();
 
-			if (durab.getShieldDamage(player, stack) == 0) return;
+			if (durab.getShieldDamage(player, stack) != 0) {
+				float progress = ((float) (durab.getMaxShieldDamage(player, stack) - durab.getShieldDamage(player, stack))) / ((float) durab.getMaxShieldDamage(player, stack));
+				int durability = (int) (13 * progress);
+				int color = durab.getColor(player, stack);
 
-			float progress = ((float) (durab.getMaxShieldDamage(player, stack) - durab.getShieldDamage(player, stack))) / ((float) durab.getMaxShieldDamage(player, stack));
-			int durability = (int) (13 * progress);
-			int color = durab.getColor(player, stack);
-
-			this.renderGuiQuad(builder, x + 2, y + 13, 13, 2, 0, 0, 0, 255);
-			this.renderGuiQuad(builder, x + 2, y + 13, durability, 1, color >> 16 & 255, color >> 8 & 255, color & 255, 255);
+				this.renderGuiQuad(builder, x + 2, y + 13, 13, 2, 0, 0, 0, 255);
+				this.renderGuiQuad(builder, x + 2, y + 13, durability, 1, color >> 16 & 255, color >> 8 & 255, color & 255, 255);
+			}
 
 			RenderSystem.enableBlend();
 			RenderSystem.enableAlphaTest();

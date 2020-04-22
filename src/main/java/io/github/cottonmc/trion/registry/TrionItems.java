@@ -28,6 +28,7 @@ public class TrionItems {
 	public static final Item DEBUG_1900 = register(new TrionDebugItem(1900, defaultSettings()), "debug_1900");
 	public static final Item BAIL_OUT = register(new BailOutItem(triggerSettings()), "bail_out");
 	public static final Item RAYGUST = register(new RaygustItem(TRION_WEAPON, 5, -2.4f, triggerSettings()), "raygust");
+	public static final Item TRION_SHIELD = register(new TrionShieldItem(triggerSettings()), "trion_shield");
 
 	public static void init() { }
 
