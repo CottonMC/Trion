@@ -52,19 +52,20 @@ public abstract class MixinPlayerEntity extends LivingEntity {
 		if (comp.isTriggerActive()) {
 			if (amount > 0.0F && ((LivingEntityAccessor) this).invokeBlockedByShield(source)) {
 				damageShield(amount);
-				amount = 0.0F;
 				if (!source.isProjectile()) {
 					Entity entity = source.getSource();
 					if (entity instanceof LivingEntity) {
 						takeShieldHit((LivingEntity)entity);
+						this.playSound(SoundEvents.ITEM_SHIELD_BLOCK, 0.8f, 0.8F + world.random.nextFloat() * 0.4F);
 					}
 				}
 				//TODO: blocked-by-shield stat increase?
+				info.setReturnValue(false);
+				return;
 			}
 			int trionCost = source.bypassesArmor()? (int)Math.ceil(amount * 5) : (int)Math.ceil(amount * 2.5); //TODO: rebalance?
 			comp.setTrion(comp.getTrion() - trionCost);
-			super.damage(source, 0f);
-			info.cancel();
+			info.setReturnValue(super.damage(source, 0f));
 		}
 	}
 
@@ -102,7 +103,6 @@ public abstract class MixinPlayerEntity extends LivingEntity {
 	private void injectTrionSound(DamageSource source, CallbackInfoReturnable<SoundEvent> info) {
 		TrionComponent comp = Trion.TRION_COMPONENT.get(this);
 		if (comp.isTriggerActive()) {
-			if (isBlocking()) info.setReturnValue(SoundEvents.ITEM_SHIELD_BLOCK);
 			//TODO: trion damage sound effect here
 		}
 	}
