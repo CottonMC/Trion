@@ -1,7 +1,7 @@
 package io.github.cottonmc.trion.mixin;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import io.github.cottonmc.trion.item.TrionShield;
+import io.github.cottonmc.trion.api.TrionShield;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.render.BufferBuilder;

@@ -3,30 +3,22 @@ package io.github.cottonmc.trion.mixin;
 import io.github.cottonmc.trion.Trion;
 import io.github.cottonmc.trion.api.TrionComponent;
 import io.github.cottonmc.trion.combat.TrionDamageSource;
-import io.github.cottonmc.trion.item.TrionShield;
+import io.github.cottonmc.trion.api.TrionShield;
 import io.github.cottonmc.trion.registry.TrionStatusEffects;
-import net.minecraft.advancement.criterion.Criterions;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.player.ItemCooldownManager;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
-import net.minecraft.stat.Stats;
-import net.minecraft.util.UseAction;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
@@ -98,7 +90,7 @@ public abstract class MixinPlayerEntity extends LivingEntity {
 			shield.damageShield(self, activeItemStack, damage);
 			if (shield.getShieldDamage(self, activeItemStack) == shield.getMaxShieldDamage(self, activeItemStack)) {
 				playSound(SoundEvents.ITEM_SHIELD_BREAK, 0.8F, 0.8F + world.random.nextFloat() * 0.4F);
-				getItemCooldownManager().set(activeItemStack.getItem(), 200);
+				getItemCooldownManager().set(activeItemStack.getItem(), shield.getCooldownTime(self, activeItemStack));
 				clearActiveItem();
 				world.sendEntityStatus(self, (byte)30);
 			}

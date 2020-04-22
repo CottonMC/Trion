@@ -4,8 +4,8 @@ import io.github.cottonmc.trion.Trion;
 import io.github.cottonmc.trion.api.TriggerConfig;
 import io.github.cottonmc.trion.api.TriggerItem;
 import io.github.cottonmc.trion.api.TrionComponent;
+import io.github.cottonmc.trion.api.TrionShield;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.SwordItem;
@@ -60,6 +60,11 @@ public class RaygustItem extends SwordItem implements TrionShield, TriggerItem {
 	@Override
 	public int getColor(PlayerEntity wielder, ItemStack stack) {
 		return 0xe4e072;
+	}
+
+	@Override
+	public int getCooldownTime(PlayerEntity wielder, ItemStack stack) {
+		return 200;
 	}
 
 	@Override

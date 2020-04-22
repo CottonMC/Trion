@@ -1,4 +1,4 @@
-package io.github.cottonmc.trion.item;
+package io.github.cottonmc.trion.api;
 
 import net.fabricmc.fabric.api.util.NbtType;
 import net.minecraft.entity.player.PlayerEntity;
@@ -25,4 +25,6 @@ public interface TrionShield {
 	void tickShield(PlayerEntity wielder, ItemStack stack);
 
 	int getColor(PlayerEntity wielder, ItemStack stack);
+
+	int getCooldownTime(PlayerEntity wielder, ItemStack stack);
 }

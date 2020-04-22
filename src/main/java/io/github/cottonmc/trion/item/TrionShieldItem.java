@@ -3,6 +3,7 @@ package io.github.cottonmc.trion.item;
 import io.github.cottonmc.trion.Trion;
 import io.github.cottonmc.trion.api.TriggerItem;
 import io.github.cottonmc.trion.api.TrionComponent;
+import io.github.cottonmc.trion.api.TrionShield;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
@@ -47,8 +48,8 @@ public class TrionShieldItem extends Item implements TrionShield, TriggerItem {
 	public void tickShield(PlayerEntity wielder, ItemStack stack) {
 		TrionComponent component = Trion.TRION_COMPONENT.get(wielder);
 		int currentDamage = getShieldDamage(wielder, stack);
-		if (component.isTriggerActive() && wielder.world.getTime() % 60 == 0 && currentDamage != 0) {
-			component.setTrion(component.getTrion() - 4, true);
+		if (component.isTriggerActive() && wielder.world.getTime() % 30 == 0 && currentDamage != 0) {
+			component.setTrion(component.getTrion() - 2, true);
 			setShieldDamage(wielder, stack, currentDamage - 1);
 		}
 	}
@@ -56,6 +57,11 @@ public class TrionShieldItem extends Item implements TrionShield, TriggerItem {
 	@Override
 	public int getColor(PlayerEntity wielder, ItemStack stack) {
 		return 0x5fec94;
+	}
+
+	@Override
+	public int getCooldownTime(PlayerEntity wielder, ItemStack stack) {
+		return 300;
 	}
 
 	@Override
