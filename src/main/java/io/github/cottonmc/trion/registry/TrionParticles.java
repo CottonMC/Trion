@@ -9,6 +9,7 @@ import net.minecraft.util.registry.Registry;
 public class TrionParticles {
 
 	public static final DefaultParticleType TRANSFORMATION = register(true, "transformation");
+	public static final DefaultParticleType TRION_DAMAGE = register(true, "trion_damage");
 
 	public static void init() { }
 

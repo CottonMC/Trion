@@ -26,15 +26,8 @@ repositories {
 	maven { url "http://maven.fabricmc.net/" } // Fabric maven - home of Fabric API and ModMenu
 	maven { url "http://server.bbkr.space:8081/artifactory/libs-release" } // Cotton maven - home of Cotton projects
 	maven { url "https://maven.onyxstudios.dev" } // Onyx Studios maven - home of Cardinal Components
-	maven { url "https://mod-buildcraft.com/maven" } // Buildcraft maven - home of Lib Block Attributes
-	maven {
-		url = "https://grondag-repo.appspot.com" //Grondag's maven - home of Fluidity
-		credentials {
-			username "guest"
-			password ""
-		}
-	}
 	maven { url "https://jitpack.io" }
+	maven {url "https://maven.jamieswhiteshirt.com/libs-release/"}
 }
 
 dependencies {
@@ -44,13 +37,12 @@ dependencies {
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 	compileOnly "com.google.code.findbugs:jsr305:3.0.2"
 
-//	modApi "io.github.cottonmc:UniversalComponents:${project.uc_version}"
-//	include "io.github.cottonmc:UniversalComponents:${project.uc_version}"
-
-	modApi "com.github.NerdHubMC.Cardinal-Components-API:cardinal-components-base:${project.cardinal_version}"
-	modApi "com.github.NerdHubMC.Cardinal-Components-API:cardinal-components-entity:${project.cardinal_version}"
+	modImplementation "com.github.NerdHubMC.Cardinal-Components-API:cardinal-components-base:${project.cardinal_version}"
+	modImplementation "com.github.NerdHubMC.Cardinal-Components-API:cardinal-components-entity:${project.cardinal_version}"
+	modImplementation ("com.jamieswhiteshirt:reach-entity-attributes:${project.reach_attribute_version}") {transitive = false}
 	include "com.github.NerdHubMC.Cardinal-Components-API:cardinal-components-base:${project.cardinal_version}"
 	include "com.github.NerdHubMC.Cardinal-Components-API:cardinal-components-entity:${project.cardinal_version}"
+	include "com.jamieswhiteshirt:reach-entity-attributes:${project.reach_attribute_version}"
 }
 
 processResources {

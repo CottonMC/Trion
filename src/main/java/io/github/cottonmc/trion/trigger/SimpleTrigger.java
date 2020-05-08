@@ -3,9 +3,15 @@ package io.github.cottonmc.trion.trigger;
 import io.github.cottonmc.trion.api.Trigger;
 import io.github.cottonmc.trion.api.TriggerItem;
 import io.github.cottonmc.trion.api.TrionComponent;
-import io.github.cottonmc.trion.registry.TrionItems;
+import net.minecraft.item.Item;
 
-public class ShieldTrigger implements Trigger {
+public class SimpleTrigger implements Trigger {
+	private final Item item;
+
+	public SimpleTrigger(Item item) {
+		this.item = item;
+	}
+
 	@Override
 	public void tick(TrionComponent component) {
 
@@ -13,6 +19,6 @@ public class ShieldTrigger implements Trigger {
 
 	@Override
 	public TriggerItem getItem() {
-		return (TriggerItem) TrionItems.TRION_SHIELD;
+		return (TriggerItem)item;
 	}
 }

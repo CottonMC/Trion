@@ -4,6 +4,7 @@ import io.github.cottonmc.trion.Trion;
 import io.github.cottonmc.trion.api.TrionComponent;
 import io.github.cottonmc.trion.combat.TrionDamageSource;
 import io.github.cottonmc.trion.api.TrionShield;
+import io.github.cottonmc.trion.registry.TrionParticles;
 import io.github.cottonmc.trion.registry.TrionStatusEffects;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
@@ -11,6 +12,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.player.ItemCooldownManager;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.math.MathHelper;
@@ -55,7 +57,7 @@ public abstract class MixinPlayerEntity extends LivingEntity {
 				if (!source.isProjectile()) {
 					Entity entity = source.getSource();
 					if (entity instanceof LivingEntity) {
-						takeShieldHit((LivingEntity)entity);
+						takeShieldHit((LivingEntity) entity);
 						this.playSound(SoundEvents.ITEM_SHIELD_BLOCK, 0.8f, 0.8F + world.random.nextFloat() * 0.4F);
 					}
 				}
@@ -63,8 +65,11 @@ public abstract class MixinPlayerEntity extends LivingEntity {
 				info.setReturnValue(false);
 				return;
 			}
-			int trionCost = source.bypassesArmor()? (int)Math.ceil(amount * 5) : (int)Math.ceil(amount * 2.5); //TODO: rebalance?
+			int trionCost = source.bypassesArmor() ? (int) Math.ceil(amount * 4) : (int) Math.ceil(amount * 2.5); //TODO: rebalance?
 			comp.setTrion(comp.getTrion() - trionCost);
+			if (!world.isClient) {
+				((ServerWorld) world).spawnParticles(TrionParticles.TRION_DAMAGE, getX(), getY() + 1.25f, getZ(), trionCost * 2, 0.0F, 0.0F, 0.0F, 0.25F);
+			}
 			info.setReturnValue(super.damage(source, 0f));
 		}
 	}

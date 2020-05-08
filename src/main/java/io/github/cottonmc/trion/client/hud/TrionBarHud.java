@@ -4,6 +4,8 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import io.github.cottonmc.trion.Trion;
 import io.github.cottonmc.trion.api.TrionComponent;
 import io.github.cottonmc.trion.registry.TrionStatusEffects;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.BufferBuilder;
 import net.minecraft.client.render.Tessellator;
@@ -12,6 +14,7 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.Util;
 import org.lwjgl.opengl.GL11;
 
+@Environment(EnvType.CLIENT)
 public class TrionBarHud {
 	private static MinecraftClient client = MinecraftClient.getInstance();
 
@@ -20,12 +23,12 @@ public class TrionBarHud {
 
 	private static final float MAX_FADE_WAIT = 1000f;
 	private static final float MAX_FADE_TIME = 1000F;
-	private static long currentFadeWait = 0; //TODO: implement?
+	private static long currentFadeWait = 0;
 	private static long currentFadeDelta = 0;
 	private static long lastFadeTime = 0;
 	private static boolean needDraw = true;
 
-	//TODO: config?
+	//TODO: config
 	private static final int x = 4;
 	private static final int y = 16;
 	private static final int normalColor = 0x5FEC94;

@@ -1,25 +1,21 @@
 package io.github.cottonmc.trion.item;
 
 import io.github.cottonmc.trion.Trion;
-import io.github.cottonmc.trion.api.TriggerConfig;
-import io.github.cottonmc.trion.api.TriggerItem;
 import io.github.cottonmc.trion.api.TrionComponent;
 import io.github.cottonmc.trion.api.TrionShield;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.SwordItem;
 import net.minecraft.item.ToolMaterial;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.Hand;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.UseAction;
 import net.minecraft.world.World;
 
-public class RaygustItem extends SwordItem implements TrionShield, TriggerItem {
-	public RaygustItem(ToolMaterial material, int attackDamage, float attackSpeed, Settings settings) {
-		super(material, attackDamage, attackSpeed, settings);
+public class RaygustItem extends TrionSwordItem implements TrionShield {
+	public RaygustItem(ToolMaterial material, int attackDamage, float attackSpeed, float rangeBoost, Settings settings) {
+		super(material, attackDamage, attackSpeed, rangeBoost, settings);
 		this.addPropertyGetter(new Identifier("blocking"), (stack, world, entity) ->
 				entity != null && entity.isUsingItem() && entity.getActiveItem() == stack ? 1.0F : 0.0F
 		);
@@ -65,15 +61,6 @@ public class RaygustItem extends SwordItem implements TrionShield, TriggerItem {
 	@Override
 	public int getCooldownTime(PlayerEntity wielder, ItemStack stack) {
 		return 200;
-	}
-
-	@Override
-	public ItemStack equip(ItemStack previous, TriggerConfig config) {
-		ItemStack equipped = TriggerItem.super.equip(previous, config);
-		CompoundTag tag = equipped.getOrCreateTag();
-		tag.putBoolean("Unbreakable", true); //so Raygust doesn't get damaged, since ToolItem overrides that setting
-		tag.putInt("HideFlags", 0b00000001); // hide unbreakable
-		return equipped;
 	}
 
 	@Override

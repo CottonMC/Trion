@@ -18,6 +18,7 @@ public class TrionShieldItem extends Item implements TrionShield, TriggerItem {
 	public TrionShieldItem(Settings settings) {
 		super(settings);
 		this.addPropertyGetter(new Identifier("blocking"), (stack, world, entity) ->
+				//TODO: returns true whether this one is the one doing the blocking or not, but picking a specific hand would make it break the model
 				entity != null && entity.isBlocking()? 1.0F : 0.0F
 		);
 	}

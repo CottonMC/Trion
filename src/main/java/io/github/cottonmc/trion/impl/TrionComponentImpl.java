@@ -26,23 +26,24 @@ public class TrionComponentImpl implements TrionComponent {
 	//core information
 	private PlayerEntity player;
 	private boolean triggerActive = false;
-	private int trion = 200;
-	private int maxTrion = 200;
+	private int trion = 50;
+	private int maxTrion = 50;
 	private int virtualTrion = 200;
 	private int lastVirtualTrion = 200;
 	private TriggerConfig config;
+	private final int maxVirtualTrion = 200; //TODO: mod config?
 
 	//set-up
 	private boolean activating = false;
 	private int activationTime = 0;
-	private final int maxActivationTime = 30;
+	private final int maxActivationTime = 30; //TODO: trigger config?
 
 	//cooldowns
 	private int virtualTrionCooldown = 0;
-	private final int maxVirtualTrionCooldown = 400;
+	private final int maxVirtualTrionCooldown = 400; //TODO: mod config?
 	private boolean burst = false;
 	private int burstCooldown = 0;
-	private final int maxBurstCooldown = 200;
+	private final int maxBurstCooldown = 200; //TODO: mod config
 
 	public TrionComponentImpl(PlayerEntity player) {
 		this.player = player;
@@ -61,19 +62,18 @@ public class TrionComponentImpl implements TrionComponent {
 				((ServerWorld) player.world).spawnParticles(TrionParticles.TRANSFORMATION, player.getX(), player.getY(), player.getZ(), 25, 0.0F, 0.0F, 0.0F, 0.25F);
 				activationTime++;
 			} else {
-				//TODO: equip shifters for triggers
 				for (EquipmentSlot slot : EquipmentSlot.values()) {
 					player.equipStack(slot, TrionArmorItem.getTrionStack(slot, player.getEquippedStack(slot), config));
 				}
 				PlayerInventory inv = player.inventory;
 				List<Trigger> triggers = config.getEquippedTriggers();
 				int nextInvSlot = 0;
-				//TODO: make this work a *lot* better bc this is just fucking garbage
+				//TODO: any way to improve this?
 				for (Trigger trigger : triggers) {
 					if (trigger.getItem() == TriggerItem.NONE) continue;
 					for (int i = nextInvSlot; i < 9; i++) {
 						ItemStack stack = inv.getInvStack(i);
-						if (stack.getItem() == TrionItems.TRIGGER_HOLDER) { //TODO: make this better?
+						if (stack.getItem() == TrionItems.TRIGGER_HOLDER) { //TODO: allow other definitions of holders?
 							continue;
 						}
 						inv.setInvStack(i, trigger.getItem().equip(inv.getInvStack(i), config));
@@ -109,7 +109,7 @@ public class TrionComponentImpl implements TrionComponent {
 					}
 				}
 				if (isTriggerActive()) {
-					if (getEntity().world.getTime() % 50 == 0) {
+					if (getEntity().world.getTime() % 100 == 0) {
 						setTrion(getTrion() - 1, true);
 					}
 					for (Trigger trigger : config.getEquippedTriggers()) {
@@ -191,7 +191,7 @@ public class TrionComponentImpl implements TrionComponent {
 			if (this.virtualTrion == 0) {
 				//TODO: proper effect for defeat in virtual combat
 				if (!player.world.isClient) {
-					((ServerWorld) player.world).spawnParticles(TrionParticles.TRANSFORMATION, player.getX(), player.getY(), player.getZ(), 25, 0.0F, 0.0F, 0.0F, 0.25F);
+					((ServerWorld) player.world).spawnParticles(TrionParticles.TRION_DAMAGE, player.getX(), player.getY() + 1.25f, player.getZ(), 200, 0.0F, 0.0F, 0.0F, 0.25F);
 				}
 			}
 		}
@@ -200,6 +200,9 @@ public class TrionComponentImpl implements TrionComponent {
 
 	@Override
 	public int getMaxTrion() {
+		if (player.hasStatusEffect(TrionStatusEffects.VIRTUAL_COMBAT)) {
+			return maxVirtualTrion;
+		}
 		return maxTrion;
 	}
 

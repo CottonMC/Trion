@@ -12,7 +12,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(DamageSource.class)
 public class MixinDamageSource {
-	@Inject(method = "player", at = @At("HEAD"))
+	@Inject(method = "player", at = @At("HEAD"), cancellable = true)
 	private static void injectTrionDamageSource(PlayerEntity attacker, CallbackInfoReturnable<DamageSource> info) {
 		TrionComponent comp = Trion.TRION_COMPONENT.get(attacker);
 		if (comp.isTriggerActive()) {
