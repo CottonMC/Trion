@@ -28,14 +28,11 @@ public class TrionBarHud {
 	private static long lastFadeTime = 0;
 	private static boolean needDraw = true;
 
-	//TODO: config
-	private static final int x = 4;
-	private static final int y = 16;
+	//TODO: should these colors go in config for accessibility? How would be the best way to do that?
 	private static final int normalColor = 0x5FEC94;
 	private static final int virtualColor = 0x5FD3EC;
 	private static final int burstColor = 0xEC5F6B;
-	private static final boolean bigBars = false;
-	private static final int unitsPerBar = 50; //TODO: ever changes?
+	private static final int unitsPerBar = 50; //TODO: support config for this? It's core to mod mechanics
 
 	//TODO: any better way to do color and fadeout?
 	public static void render(float tickDelta) {
@@ -77,8 +74,8 @@ public class TrionBarHud {
 		client.getTextureManager().bindTexture(ICON_TEX);
 		RenderSystem.enableBlend();
 		RenderSystem.enableAlphaTest();
-		int left = x;
-		int top = y;
+		int left = Trion.config.meterX;
+		int top = Trion.config.meterY;
 		RenderSystem.color4f(1f, 1f, 1f, alpha);
 		blit(left, top, 9, 9);
 
@@ -97,7 +94,7 @@ public class TrionBarHud {
 		if (fullBoxes > boxes) fullBoxes = boxes;
 		boolean plusOn = fullBoxes > 36;
 
-		if (!bigBars) {
+		if (!Trion.config.bigBars) {
 			long aboveLastBox = component.getMaxTrion() % unitsPerBar;
 			if (aboveLastBox == 0) aboveLastBox = unitsPerBar;
 			long remainder = component.getTrion() % unitsPerBar;

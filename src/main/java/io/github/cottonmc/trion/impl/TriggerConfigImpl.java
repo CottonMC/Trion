@@ -29,7 +29,7 @@ public class TriggerConfigImpl implements TriggerConfig {
 	@Override
 	public Identifier getTextureId(EquipmentSlot slot) {
 		if (textures.containsKey(slot)) return textures.get(slot);
-		return new Identifier(Trion.MODID, "strategist_shaded"); //Tamakoma-2 texture
+		return new Identifier(Trion.MODID, "strategist"); //Tamakoma-2 texture
 	}
 
 	public void setTextureId(EquipmentSlot slot, Identifier id) {

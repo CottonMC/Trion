@@ -17,5 +17,12 @@
   "death.attack.trion": "%1$s was slain by %2$s's trion",
   "death.attack.trion.item": "%1$s was slain by %2$s's trion using %3$s",
   "effect.trion.virtual_combat": "Virtual Combat",
-  "itemGroup.trion.trion_group": "Trion"
+  "itemGroup.trion.trion_group": "Trion",
+
+  "text.autoconfig.trion.title": "Trion",
+  "text.autoconfig.trion.option.meterX": "Trion meter X position",
+  "text.autoconfig.trion.option.meterY": "Trion meter Y position",
+  "text.autoconfig.trion.option.bigBars": "Accessible Trion meter",
+  "text.autoconfig.trion.option.bigBars.@Tooltip[0]": "Makes the Trion meter use a single bar",
+  "text.autoconfig.trion.option.bigBars.@Tooltip[1]": "instead of the bar-and-box system."
 }

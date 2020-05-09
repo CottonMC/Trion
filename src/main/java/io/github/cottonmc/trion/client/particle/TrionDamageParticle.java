@@ -9,6 +9,7 @@ import net.minecraft.client.particle.SpriteProvider;
 import net.minecraft.particle.DefaultParticleType;
 import net.minecraft.world.World;
 
+//TODO: custom particle texture
 public class TrionDamageParticle extends AnimatedParticle {
 	protected TrionDamageParticle(World world, double x, double y, double z, double velocityX, double velocityY, double velocityZ, SpriteProvider spriteProvider) {
 		super(world, x, y, z, spriteProvider, -0.02f);

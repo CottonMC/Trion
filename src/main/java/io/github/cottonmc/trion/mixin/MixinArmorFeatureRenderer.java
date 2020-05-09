@@ -37,8 +37,9 @@ public abstract class MixinArmorFeatureRenderer<T extends LivingEntity, M extend
 
 	@Shadow protected abstract void setVisible(A bipedModel, EquipmentSlot equipmentSlot);
 
-	private final A CUSTOM_BODY = (A) new BipedEntityModel<>(0.25f);
-	private final A CUSTOM_HEAD = (A) new BipedEntityModel<>(0.75f);
+	private final A CUSTOM_BODY = (A) new BipedEntityModel<>(0.25f); //fit more tightly to player
+	private final A CUSTOM_CHEST = (A) new BipedEntityModel<>(0.3f); //bigger so it stays over pants
+	private final A CUSTOM_HEAD = (A) new BipedEntityModel<>(0.75f); //stay full-size so it doesn't interfere with hair
 
 	public MixinArmorFeatureRenderer(FeatureRendererContext<T, M> context) {
 		super(context);
@@ -50,6 +51,7 @@ public abstract class MixinArmorFeatureRenderer<T extends LivingEntity, M extend
 		if (armor.getMaterial() instanceof DynamicArmorMaterial) {
 			DynamicArmorMaterial material = (DynamicArmorMaterial)armor.getMaterial();
 			model = slot == EquipmentSlot.HEAD? CUSTOM_HEAD : CUSTOM_BODY;
+			if (slot == EquipmentSlot.CHEST) model = CUSTOM_CHEST;
 			this.getContextModel().setAttributes(model);
 			model.animateModel(wearer, limbAngle, limbDistance, tickDelta);
 			setVisible(model, slot);

@@ -17,6 +17,9 @@
     ],
     "client": [
       "io.github.cottonmc.trion.TrionClient"
+    ],
+    "modmenu": [
+      "io.github.cottonmc.trion.client.ModMenuIntegration"
     ]
   },
   "mixins": [

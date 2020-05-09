@@ -6,6 +6,7 @@ import net.minecraft.client.particle.*;
 import net.minecraft.particle.DefaultParticleType;
 import net.minecraft.world.World;
 
+//TODO: custom particle textures
 public class TransformationParticle extends AnimatedParticle {
 	public TransformationParticle(World world, double x, double y, double z, double velocityX, double velocityY, double velocityZ, SpriteProvider spriteProvider) {
 		super(world, x, y, z, spriteProvider, 0.02f);
