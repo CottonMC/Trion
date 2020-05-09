@@ -44,7 +44,6 @@ dependencies {
 	modImplementation "me.sargunvohra.mcmods:autoconfig1u:${project.autoconfig_version}"
 	modImplementation "me.shedaniel.cloth:config-2:${project.cloth_config_version}"
 	modCompileOnly "io.github.prospector:modmenu:${project.modmenu_version}"
-	modRuntime "io.github.prospector:modmenu:${project.modmenu_version}" //TODO: delete once working
 	include "com.github.NerdHubMC.Cardinal-Components-API:cardinal-components-base:${project.cardinal_version}"
 	include "com.github.NerdHubMC.Cardinal-Components-API:cardinal-components-entity:${project.cardinal_version}"
 	include "com.jamieswhiteshirt:reach-entity-attributes:${project.reach_attribute_version}"
