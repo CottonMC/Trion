@@ -9,11 +9,14 @@
   "item.trion.kogetsu": "Kogetsu",
   "item.trion.scorpion": "Scorpion",
   "item.trion.trion_shield": "Trion Shield",
+
   "trigger.trion.chameleon": "Chameleon",
+
   "tooltip.trion.triggers": "Equipped Triggers:",
   "subtitles.trion.transformation.on": "Player transforms",
   "subtitles.trion.transformation.off": "Player un-transforms",
   "subtitles.trion.transformation.charge": "Player's transformation charges",
+
   "death.attack.trion": "%1$s was slain by %2$s's trion",
   "death.attack.trion.item": "%1$s was slain by %2$s's trion using %3$s",
   "effect.trion.virtual_combat": "Virtual Combat",
