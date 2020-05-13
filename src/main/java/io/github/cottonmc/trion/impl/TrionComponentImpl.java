@@ -30,7 +30,7 @@ public class TrionComponentImpl implements TrionComponent {
 	private int maxTrion = 50;
 	private int virtualTrion = 200;
 	private int lastVirtualTrion = 200;
-	private TriggerConfig config;
+	private TriggerConfig config = new TriggerConfigImpl();
 	private final int maxVirtualTrion = 200; //TODO: mod config?
 
 	//set-up
