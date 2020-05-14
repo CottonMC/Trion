@@ -9,6 +9,5 @@ public class TrionDamageSource extends EntityDamageSource {
 	//TODO: more info?
 	public TrionDamageSource(String name, @Nullable Entity entity) {
 		super(name, entity);
-		this.setBypassesArmor();
 	}
 }
