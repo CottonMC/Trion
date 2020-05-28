@@ -16,6 +16,7 @@ public class TrionProjectileEntity extends ProjectileEntity {
 	public TrionProjectileEntity(EntityType<TrionProjectileEntity> type, World world) {
 		super(type, world);
 		this.pickupType = PickupPermission.DISALLOWED;
+		this.setNoGravity(true);
 	}
 
 	@Override
@@ -29,6 +30,12 @@ public class TrionProjectileEntity extends ProjectileEntity {
 
 	public boolean isExplosive() {
 		return (this.dataTracker.get(ProjectileEntityAccessor.getPROJECTILE_FLAGS()) & 8) != 0;
+	}
+
+	@Override
+	public void tick() {
+		super.tick();
+		if (this.age >= 500) this.remove();
 	}
 
 	//TODO: explosive trion damage source?
@@ -45,6 +52,7 @@ public class TrionProjectileEntity extends ProjectileEntity {
 		if (isExplosive()) {
 			world.createExplosion(this, new TrionDamageSource("trion", getOwner()), this.getX(), this.getY(), this.getZ(), 4, false, Explosion.DestructionType.BREAK);
 		}
+		this.remove();
 	}
 
 	@Override
